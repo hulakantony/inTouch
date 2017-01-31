@@ -1,0 +1,33 @@
+{
+  "name": "react-simple-datepicker-example",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "babel-runtime": "^5.8.20",
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.1",
+    "css-loader": "^0.23.1",
+    "express": "^4.14.1",
+    "moment": "^2.11.2",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-redux": "^5.0.2",
+    "react-router": "^3.0.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "socket.io": "^1.7.2",
+    "style-loader": "^0.13.0",
+    "uidify": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.6.18",
+    "babel-loader": "^5.1.4",
+    "webpack": "^1.9.11",
+    "webpack-dev-server": "^1.9.0"
+  },
+  "author": "Yevhen Boyarskiy",
+  "license": "MIT"
+}
