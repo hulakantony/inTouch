@@ -19,6 +19,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "socket.io": "^1.7.2",
+    "socket.io-client": "^1.7.2",
     "style-loader": "^0.13.0",
     "uidify": "^1.0.0"
   },
