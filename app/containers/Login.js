@@ -5,7 +5,7 @@ export default class Auth extends Component {
 
 	render(){
 		return (
-		<div>
+		<div className="login-signin-wrap">
 			<form className="col-md-4">
 					<div className="form-group">
 					    <input 

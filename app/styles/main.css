@@ -73,3 +73,10 @@ ul{
   background: #ccc;
   padding: 13px 15px;
 } 
+.login-signin-wrap{
+  width: 80%;
+  margin: 0 auto;
+}
+.content-wrap{
+  margin: 0 auto;
+}
