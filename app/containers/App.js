@@ -1,33 +1,29 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
+import { connect } from 'react-redux';
+import { sendMessage } from '../actions/actions'
 
 const socket = io('http://localhost:8080/');
 export default class App extends Component {
 	constructor(){
-		super()
-		this.state = {
-			messages: [],
-		}
+		super()		
 	}
 	componentDidMount(){
-		socket.on('chat message', this.handleSubmit);
+		socket.on('chat message', this._messageRecieve.bind(this));
 	}
-	// _messageRecieve(message){
-	// 	const { messages } = this.state;
-	// 	messages.push(message);
-	// 	this.setState({messages})
+	_messageRecieve(message){	
+		const { sendMessage } = this.props;
+		sendMessage(message, 'guest');
+	}
 
-	// }
 	handleSubmit(e) {
 		e.preventDefault();
-		const { text } = this.refs;
-		const { messages } = this.state;
-		messages.push(text.value);
-		this.setState({messages})
-		socket.emit('chat message', text.value.trim())
+		const { text } = this.refs;				
+		socket.emit('chat message', text.value.trim());
+		text.value = '';
 	}
 	render(){
-		const { messages } = this.state;
+		const { messages } = this.props;
 		return (
 			<div>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
@@ -36,7 +32,7 @@ export default class App extends Component {
 				<ul>
 					{
 						messages.map((el,i) => {
-							return <li key={i}>{el}</li>
+							return <li key={i}><strong>{el.user}:</strong>  {el.message}</li>
 						})
 					}
 				</ul>
@@ -44,3 +40,15 @@ export default class App extends Component {
 		)
 	}
 }
+const mapStateToProps = (state) => { 
+  return {    
+    messages: state.messages,    
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendMessage: (message, user) => dispatch(sendMessage(message, user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
