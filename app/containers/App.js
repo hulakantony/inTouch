@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
-import { sendMessage } from '../actions/actions'
+import { sendMessage } from '../actions/actions';
+import Header from '../components/header';
 
 const socket = io('http://localhost:8080/');
 export default class App extends Component {
@@ -26,6 +27,7 @@ export default class App extends Component {
 		const { messages } = this.props;
 		return (
 			<div>
+				<Header/>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
 					<input type="text" defaultValue=''  ref='text' />
 				</form>
@@ -36,6 +38,7 @@ export default class App extends Component {
 						})
 					}
 				</ul>
+				{this.props.children}
 			</div>	
 		)
 	}

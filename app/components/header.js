@@ -4,15 +4,20 @@ import { Link } from 'react-router';
 
 export default function Header () {
     return (
-    	<div className="nav-holder">
+    <nav className="navbar navbar-default">
+    	<div className="container-fluid">
+            <a href="/" className="logo"><i className="fa fa-shower" aria-hidden="true"></i></a>
     		<ul className="nav nav-pills">
                 <li role="presentation"  >
-	  				<Link to={  } activeClassName='active' >Sign In</Link>
+	  				<Link to={ '/auth' } activeClassName='active' >Sign In</Link>
 	  			</li>
                 <li role="presentation"  >
-                    <Link to={  } activeClassName='active' >Login</Link>
+                    <Link to={ '/login' } activeClassName='active' >Login</Link>
                 </li>
     	  	</ul> 
+
     	</div>
+    </nav>
     )
 }
+
