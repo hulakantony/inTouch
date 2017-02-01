@@ -16,6 +16,7 @@ export default class App extends Component {
 	componentDidMount(){
 		socket.on('chat message', this._messageRecieve.bind(this));
 	}
+  
 	_messageRecieve(message){	
 		const { sendMessage } = this.props;
 		sendMessage(message, 'guest');
@@ -25,6 +26,7 @@ export default class App extends Component {
 		socket.emit('chat message', msg);		
 	}
 	render(){
+    debugger;
 		const { messages } = this.props;
 		return (
 			<div>
@@ -41,7 +43,7 @@ export default class App extends Component {
 }
 const mapStateToProps = (state) => { 
   return {    
-    messages: state.messages,    
+    messages: state.messages
   }
 }
 const mapDispatchToProps = (dispatch) => {
