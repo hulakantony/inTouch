@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 import { connect } from 'react-redux';
 import { sendMessage } from '../actions/actions'
+import MessageList from '../components/MessageList';
+import '../styles/main.css'
 
 const socket = io('http://localhost:8080/');
 export default class App extends Component {
@@ -18,24 +20,23 @@ export default class App extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		const { text } = this.refs;				
-		socket.emit('chat message', text.value.trim());
-		text.value = '';
+		const { text } = this.refs;	
+		if(text.value) 	{
+			socket.emit('chat message', text.value.trim());
+			text.value = '';
+		} else {
+			return;
+		}
+		
 	}
 	render(){
 		const { messages } = this.props;
 		return (
-			<div>
+			<div className="main-wrapper">
 				<form onSubmit={(e) => this.handleSubmit(e)}>
 					<input type="text" defaultValue=''  ref='text' />
 				</form>
-				<ul>
-					{
-						messages.map((el,i) => {
-							return <li key={i}><strong>{el.user}:</strong>  {el.message}</li>
-						})
-					}
-				</ul>
+				<MessageList messages={messages} />
 			</div>	
 		)
 	}
