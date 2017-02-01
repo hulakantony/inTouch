@@ -1,0 +1,75 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+
+.main-wrapper{
+  margin: 0 auto;
+  text-align: center;
+  width: 550px;
+}
+.chat-wrapper {
+  padding: 30px 30px 20px;
+  border-bottom: 2px solid white;
+  overflow-y: scroll;
+  height: 575px;  
+  margin: 0 auto;
+}
+.message-data {
+  margin-bottom: 15px;
+  text-align: right;
+}
+.message-data-name{
+  padding: 0 5px;
+  font-weight: bold;
+}    
+.message-data-time {
+  color: lighten(gray, 8%);
+  padding-left: 6px;
+}
+.fa-circle{
+  padding: 0 5px 0 0;
+}  
+.message {      
+  color: white;
+  padding: 13px 15px;
+  line-height: 26px;
+  font-size: 16px;
+  border-radius: 7px;
+  margin-bottom: 30px;
+  position: relative;
+}
+      
+.message::after {
+  bottom: 100%;
+  left: 7%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: $green;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.my-message {
+  background: green;
+}
+.message-form-wrap{
+  background: #ccc;
+  padding: 13px 15px;
+} 
