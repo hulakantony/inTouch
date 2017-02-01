@@ -19,25 +19,30 @@ ul{
 .main-wrapper{
   margin: 0 auto;
   text-align: center;
+  width: 550px;
 }
 .chat-wrapper {
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  height: 575px;
-  width: 600px;
+  height: 575px;  
   margin: 0 auto;
 }
 .message-data {
   margin-bottom: 15px;
   text-align: right;
 }
-    
+.message-data-name{
+  padding: 0 5px;
+  font-weight: bold;
+}    
 .message-data-time {
   color: lighten(gray, 8%);
   padding-left: 6px;
 }
-    
+.fa-circle{
+  padding: 0 5px 0 0;
+}  
 .message {      
   color: white;
   padding: 13px 15px;
@@ -45,7 +50,6 @@ ul{
   font-size: 16px;
   border-radius: 7px;
   margin-bottom: 30px;
-  //width: 90%;
   position: relative;
 }
       
@@ -65,4 +69,7 @@ ul{
 .my-message {
   background: green;
 }
-    
+.message-form-wrap{
+  background: #ccc;
+  padding: 13px 15px;
+} 
