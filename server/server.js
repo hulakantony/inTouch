@@ -10,7 +10,7 @@ const flash    = require('flash');
 const mongoose = require('mongoose');
 const configDB = require('./config/database.js');
 
-mongoose.connect(configDB.url); // connect to our database
+//mongoose.connect(configDB.url); // connect to our database
 
 
 //const socket = require('./routes/socket.io');

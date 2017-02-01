@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Message from './Message';
 
-export default function MessageList({messages}) {
-	return (
-		<div className='chat-wrapper'>
-			<ul>
-				{
-					messages.map((el, i) => {
-						return <Message key={i} date={el.date} message={el.message} user={el.user} />
-					})
-				}
-			</ul>
-		</div>
-	)
+export default class MessageList extends Component{
+	constructor(props){
+		super(props);
+	}
+	componentDidUpdate(){
+		const { messageList } = this.refs;
+		messageList.scrollTop = messageList.scrollHeight;
+	}
+	render(){
+		const { messages } = this.props;
+		return (
+			<div className='chat-wrapper' ref="messageList">
+				<ul>
+					{
+						messages.map((el, i) => {
+							return <Message key={i} date={el.date} message={el.message} user={el.user} />
+						})
+					}
+				</ul>
+			</div>
+		)
+	}
+	
 }
