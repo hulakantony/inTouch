@@ -6,16 +6,32 @@ export default class Auth extends Component {
 	render(){
 		return (
 		<div>
-			<form className='auth-form'>
-				<input type='text'  placeholder='nickname' />
-				<input type='text'  placeholder='password' />
+			<form className="col-md-4">
+					<div className="form-group">
+					    <input 
+					    	className="form-control"
+							placeholder="E-mail" 
+							type="text" 
+						/>
+					</div>
+					<div className="form-group">
+					    <input 
+					    	className="form-control" 
+							placeholder="Password" 
+							type="password" 
+						/>
+					</div>
+					<button className="btn btn-primary">Login</button>
 			</form>
-			<button><i className="fa fa-vk" aria-hidden="true"></i></button>
+			<button className="btn btn-primary"><i className="fa fa-vk" aria-hidden="true"></i></button>
 		</div>
 		)
 
 	}
 }
+
+
+
 
 // const mapStateToProps = (state) => { 	
 //   return {
