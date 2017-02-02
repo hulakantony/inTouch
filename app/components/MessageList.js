@@ -13,7 +13,7 @@ export default class MessageList extends Component{
 		const { messages } = this.props;
 		const username = localStorage.getItem('username');	
 		return (
-			<div className='chat-wrapper' ref="messageList">
+			<div className='message-list clearfix' ref="messageList">
 				<ul>
 					{
 						messages.map((el, i) => {

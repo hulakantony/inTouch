@@ -13,7 +13,7 @@ export default class App extends Component {
 		return (
 			<div>
 				<Header/>
-				<div className="content-wrap">				
+				<div className="content-wrap clearfix">				
 					{this.props.children && React.cloneElement(this.props.children, {
               socket: socket})}
 				</div>

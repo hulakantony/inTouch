@@ -16,7 +16,6 @@ class ChatContainer extends Component {
 		const { socket } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
 		socket.on('user joined', this._userJoined.bind(this))
-		console.log(this.props.addUser.toString())
 	}
   	_userJoined(user){
   		const { addUser } = this.props;
@@ -37,16 +36,17 @@ class ChatContainer extends Component {
 
 		return (
 			<div className="main-wrapper">	
-				<UsersList users={users} />
-				<MessageList messages={messages}/>
-				<MessageForm messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
+				<UsersList users={users} currentUser={user}/>
+				<div className="chat-container">
+					<MessageList messages={messages}/>
+					<MessageForm messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
+				</div>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state) => { 
-	console.log(123, state)
   return {    
     messages: state.messages,
     users: state.users

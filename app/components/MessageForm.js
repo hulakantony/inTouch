@@ -16,7 +16,7 @@ export default class MessageForm extends PureComponent {
 		        id: `${Date.now()}${uuid.v4()}`,		        
 		        text: text.value.trim(),
 		        user: user,
-		        time: moment.utc().format('lll')
+		        time: moment().format("MM/DD/YYYY h:mm:ss")
       		};
 			messageSubmit(newMessage);
 			text.value = '';

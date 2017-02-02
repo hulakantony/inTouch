@@ -15,18 +15,27 @@ ul{
   list-style: none;
   text-align: right;
 }
-
+nav.navbar {
+  margin: 0;
+}
 .main-wrapper{
   margin: 0 auto;
   text-align: center;
-  width: 550px;
+  width: 800px;
+  padding: 10px 0 0 0;
 }
-.chat-wrapper {
-  padding: 30px 30px 20px;
-  border-bottom: 2px solid white;
-  overflow-y: scroll;
-  height: 575px;  
+.chat-container {
+  float: right;
   margin: 0 auto;
+}
+.message-list {
+  padding: 30px 30px 20px ;
+  border-bottom: 2px solid white;
+  overflow-y: auto;
+  height: 575px;  
+  width: 600px; 
+  background: #fff;
+  border-radius: 10px;
 }
 .message-data {
   margin-bottom: 15px;
@@ -56,6 +65,8 @@ ul{
   border-radius: 7px;
   margin-bottom: 30px;
   position: relative;
+  max-width: 500px;
+  word-wrap: break-word;
 }
       
 .message::after {
@@ -81,14 +92,20 @@ ul{
 }
 .message-form-wrap{
   background: #ccc;
-  padding: 13px 15px;
+  padding: 15px 15px;
+  border-radius: 10px;
 } 
 .login-signin-wrap{
   width: 80%;
   margin: 0 auto;
+  padding: 20px 0;
 }
 .content-wrap{
   margin: 0 auto;
+  max-height: 100%;
+  min-height: 100vh;
+  background: rgba(0,0,0,0.1);
+ 
 }
 .header-nav {
   float: right;
@@ -115,4 +132,29 @@ ul{
   font-size: 19px;
   text-decoration: none;
   cursor: pointer;
+}
+.users-list-wrap{
+  float: left;
+  width: 200px;
+  height: 630px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  background: #fff;
+  position: relative;
+  border-radius: 10px;
+  z-index: 1;
+}
+.users-list-wrap ul li{
+  text-align: left;
+  padding: 5px 20px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 19px;
+  border-bottom: 1px solid #ccc;
+  border-radius: 5px;
+}
+.user-me{
+  color: green;
+}
+.user-other{
+  color: blue;
 }
