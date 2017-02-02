@@ -1,9 +1,8 @@
 import React from 'react';
 
-export default function Message({message, user, date}) {
-	const username = localStorage.getItem('username');
-	const msgClassName = username === user ? "message my-message" : "message other-message";
-	const dataClassName = username === user ? "message-data my-message-data" : "message-data other-message-data"
+export default function Message({message, user, date, myMessage}) {
+	const msgClassName = myMessage ? "message my-message" : "message other-message";
+	const dataClassName = myMessage ? "message-data my-message-data" : "message-data other-message-data"
 	return (
 		<li className="clearfix">
 			<div className={dataClassName}>

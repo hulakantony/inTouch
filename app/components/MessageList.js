@@ -10,13 +10,15 @@ export default class MessageList extends Component{
 		messageList.scrollTop = messageList.scrollHeight;
 	}
 	render(){
-		const { messages } = this.props;	
+		const { messages } = this.props;
+		const username = localStorage.getItem('username');	
 		return (
 			<div className='chat-wrapper' ref="messageList">
 				<ul>
 					{
 						messages.map((el, i) => {
-							return <Message key={i} date={el.time} message={el.text} user={el.user} />
+							const myMessage = username === el.user;
+							return <Message key={i} date={el.time} message={el.text} user={el.user}  myMessage={myMessage}/>
 						})
 					}
 				</ul>
