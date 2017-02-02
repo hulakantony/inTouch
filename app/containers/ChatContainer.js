@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { sendMessage } from '../actions/actions'
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
+import UsersList from '../components/UsersList';
 import io from 'socket.io-client';
 const socket = io('http://localhost:8080/');
 export default class ChatContainer extends Component {
@@ -19,9 +20,10 @@ export default class ChatContainer extends Component {
 		socket.emit('chat message', msg);		
 	}
 	render(){
-		const { messages } = this.props;
+		const { messages, users } = this.props;
 		return (
-			<div className="main-wrapper">				
+			<div className="main-wrapper">	
+				<UsersList users={users} />
 				<MessageList messages={messages} />
 				<MessageForm messageSubmit={(m) => this.messageSubmit(m)}/>
 			</div>
@@ -31,7 +33,8 @@ export default class ChatContainer extends Component {
 
 const mapStateToProps = (state) => { 
   return {    
-    messages: state.messages
+    messages: state.messages,
+    users: state.users
   }
 }
 const mapDispatchToProps = (dispatch) => {
