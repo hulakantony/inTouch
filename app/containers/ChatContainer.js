@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendMessage } from '../actions/actions'
+import { sendMessage, addUser } from '../actions/actions'
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
@@ -14,26 +14,30 @@ export default class ChatContainer extends Component {
 	componentDidMount(){
 		const { socket } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
+		socket.on('user joined', this._userJoined.bind(this))
 	}
-  
-	_messageRecieve(message, user){	
-		const { sendMessage } = this.props;
-		const currentUser = this.props.users.currentUser;		
-		sendMessage(message, currentUser);
+  	_userJoined(user){
+  		const { addUser } = this.props;
+  		addUser(user)
+  	}
+	_messageRecieve(message){	
+		const { sendMessage } = this.props;		
+		sendMessage(message);
 	}
 
 	messageSubmit(msg) {
-		const { socket } = this.props;
-		const currentUser = this.props.users.currentUser;		
-		socket.emit('chat message', msg, currentUser);		
+		const { socket } = this.props;				
+		socket.emit('chat message', msg);		
 	}
 	render(){
 		const { messages, users } = this.props;
+		const user = this.props.users.currentUser;
+
 		return (
 			<div className="main-wrapper">	
 				<UsersList users={users} />
-				<MessageList messages={messages} />
-				<MessageForm messageSubmit={(m) => this.messageSubmit(m)}/>
+				<MessageList messages={messages}/>
+				<MessageForm messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
 			</div>
 		);
 	}
@@ -48,7 +52,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendMessage: (message, user) => dispatch(sendMessage(message, user))
+    sendMessage: (message, user) => dispatch(sendMessage(message, user)),
+    addUser: (user) => dispatch(addUser(user))
   }
 }
 

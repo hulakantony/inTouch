@@ -8,30 +8,21 @@ import { browserHistory } from 'react-router'
 export default class Login extends Component {
 	constructor(props){
 		super(props)
-	}
-	componentDidMount(){
-		const { socket } = this.props;
-   		socket.on('user joined', this._userJoined.bind(this))
-	}
-	_userJoined(user){
-		const { loginUser } = this.props;
-    	loginUser(user)
-	}
+	}	
 	handleSubmit(e){
 	    e.preventDefault();
-	    const { socket } = this.props;
+	    const { socket, loginUser } = this.props;
 	    const { email, password } = this.refs;
 	    const newUser = {
 	      email: email.value,
 	      password: password.value
-	    };
-	    socket.emit('user joined', newUser);
-	    browserHistory.push('/chat')
+	    };	
+	    loginUser(socket, newUser);    
 	}
 	render(){
 		return (
 		<div className="login-signin-wrap">
-			<form className="col-md-4" onSubmit={(e)=>this.handleSubmit(e)} method="post" action="http://localhost:8080/login">
+			<form className="col-md-4" onSubmit={(e)=>this.handleSubmit(e)} >
 					<div className="form-group">
 					    <input 
 					    	className="form-control"
@@ -70,7 +61,7 @@ console.log(state)
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user) => dispatch(loginUser(user))
+    loginUser: (user) => dispatch(loginUser(user)),
    }
 }
 

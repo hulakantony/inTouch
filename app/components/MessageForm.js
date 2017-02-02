@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
+import uuid from 'uuid';
 
 export default class MessageForm extends PureComponent {
 	constructor(props){
@@ -6,10 +8,17 @@ export default class MessageForm extends PureComponent {
 	}
 	handleSubmit(e) {
 		e.preventDefault();
-		const { text } = this.refs;
-		const { messageSubmit } = this.props;
+		const { text } = this.refs;		
+		const { messageSubmit, user } = this.props;
+		console.log(666, user)
 		if(text.value){
-			messageSubmit(text.value.trim());
+			const newMessage = {
+		        id: `${Date.now()}${uuid.v4()}`,		        
+		        text: text.value.trim(),
+		        user: user,
+		        time: moment.utc().format('lll')
+      		};
+			messageSubmit(newMessage);
 			text.value = '';
 		} else {
 			return;

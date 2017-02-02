@@ -5,7 +5,7 @@ export default function Message({message, user, date}) {
 		<li className="clearfix">
 			<div className="message-data">
 				<span className="message-data-name"><i className="fa fa-circle online"></i>{user}</span>
-				<span className="message-data-time">{date.toLocaleString()}</span>
+				<span className="message-data-time">{date}</span>
 			</div>
 			<div className="message my-message">
 				{message}

@@ -26,8 +26,7 @@ const requestLogout = ()=> ({
   type: types.LOGOUT_SUCCESS
 });
 
-export const loginUser = (creds)=> dispatch => {
-
+export const loginUser = (socket, creds)=> dispatch => {
   dispatch(requestLogin());
 
   fetch('http://localhost:8080/login', {
@@ -36,22 +35,30 @@ export const loginUser = (creds)=> dispatch => {
     body: JSON.stringify(creds)
   }).then(response => {
     if (response.ok) {
+      console.log(response)
       return response.json();
     }else{
       dispatch(loginError(error))
     }
-  }).then((response)=>{
-    console.log(response);
+  }).then((response)=>{    
     let user = response.user.local;    
-    localStorage.setItem('username', user.nickname);    
-    dispatch(receiveLogin(user.nickname));
-    //this.context.router.push(`/chat`)
+    localStorage.setItem('username', user.nickname);  
+    socket.emit('user joined', user.nickname);
+    dispatch(receiveLogin(user.nickname));   
     browserHistory.push('/chat');
   })
     .catch(error => {
       dispatch(loginError(error))
     });
 };
+
+export const addUser = (user) => {
+  return {
+    type: types.ADD_USER,
+    user
+  }
+}
+
 
 
 
