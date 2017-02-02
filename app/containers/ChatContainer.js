@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 const socket = io('http://localhost:8080/');
 export default class ChatContainer extends Component {
 	componentDidMount(){
-		socket.on('chat message', this._messageRecieve.bind(this));
+		//socket.on('chat message', this._messageRecieve.bind(this));
 	}
   
 	_messageRecieve(message){	

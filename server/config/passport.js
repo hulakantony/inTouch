@@ -19,7 +19,6 @@ module.exports = function (passport) {
     });
   });
 
-
   // LOCAL LOGIN 
 
   passport.use('local-login', new LocalStrategy({
