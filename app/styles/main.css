@@ -85,6 +85,24 @@ ul{
   padding: 5px 0;
 }
 .logo {
-  width: 30px;
-  height: 30px;
+  display: block;
+  float: left;
+}
+.logo:hover {
+  color: #23527c;
+  text-decoration: none;
+}
+.logo-in {
+  font-family: 'Corben', cursive;
+  display: block;
+  font-size: 35px;
+  margin-bottom: -16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.logo-touch {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 19px;
+  text-decoration: none;
+  cursor: pointer;
 }
