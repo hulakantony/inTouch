@@ -25,8 +25,8 @@ server.on('listening', onListening);
 const io = require('socket.io')(server);
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+  socket.on('chat message', function(msg, user){
+    io.emit('chat message', {msg, user});
   });
   socket.on('user joined', function(user){
   	io.emit('user joined', user)
