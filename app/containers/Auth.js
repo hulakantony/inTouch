@@ -24,8 +24,8 @@ const validation = {
 };
 
 export default class Auth extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             email: '',
             pass: '',
@@ -34,7 +34,9 @@ export default class Auth extends Component {
             errors: null
         }
     }
-
+    componentDidMount(){
+    	console.log(333, this.props)
+    }
     handleInputChange(e, name) {
         this.setState({
             [name]: e.target.value

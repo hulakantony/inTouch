@@ -5,24 +5,20 @@ import {types} from '../consts/';
 import {browserHistory} from 'react-router';
 
 
-const requestLogin = (creds)=> ({
-  type: types.LOGIN_REQUEST,
-  isFetching: true,
-  isAuthenticated: false,
-  creds
+const requestLogin = ()=> ({
+  type: types.LOGIN_REQUEST  
 });
 
-const receiveLogin = (user)=>({
-  type: types.LOGIN_SUCCESS,
-  isFetching: false,
-  isAuthenticated: true,
-  user: user
-});
+const receiveLogin = (user)=>{
+  console.log(333, user)
+  return {
+    type: types.LOGIN_SUCCESS,   
+    nickname: user
+  }  
+};
 
 const loginError = (message)=> ({
-  type: types.LOGIN_FAILURE,
-  isFetching: false,
-  isAuthenticated: false,
+  type: types.LOGIN_FAILURE,  
   message
 });
 
@@ -32,7 +28,7 @@ const requestLogout = ()=> ({
 
 export const loginUser = (creds)=> dispatch => {
 
-  dispatch(requestLogin(creds));
+  dispatch(requestLogin());
 
   fetch('http://localhost:8080/login', {
     method: 'post',
@@ -46,10 +42,10 @@ export const loginUser = (creds)=> dispatch => {
     }
   }).then((response)=>{
     console.log(response);
-    let user = response.user.local;
-    localStorage.setItem('username', user.nickname);
-    console.log(user.nickname);
+    let user = response.user.local;    
+    localStorage.setItem('username', user.nickname);    
     dispatch(receiveLogin(user.nickname));
+    //this.context.router.push(`/chat`)
     browserHistory.push('/chat');
   })
     .catch(error => {

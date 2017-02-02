@@ -5,8 +5,8 @@ export default function UsersList({users}) {
 		<div className='users-list-wrap'>
 			<ul>
 				{
-					users.map((el, i) => {
-						return <li key={i} >{user}</li>
+					users.users.map((el, i) => {
+						return <li key={i} >{el}</li>
 					})
 				}
 			</ul>

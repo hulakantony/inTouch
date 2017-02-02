@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginUser } from '../actions/userActions';
+import { browserHistory } from 'react-router'
 
-import io from 'socket.io-client';
-const socket = io('http://localhost:8080/');
+
 
 export default class Login extends Component {
+	constructor(props){
+		super(props)
+	}
 	componentDidMount(){
-    socket.on('user joined', this._userJoined.bind(this))
+		const { socket } = this.props;
+   		socket.on('user joined', this._userJoined.bind(this))
 	}
 	_userJoined(user){
 		const { loginUser } = this.props;
-    loginUser(user)
+    	loginUser(user)
 	}
 	handleSubmit(e){
-    e.preventDefault();
-    const { email, password } = this.refs;
-    const newUser = {
-      email: email.value,
-      password: password.value
-    };
-    socket.emit('user joined', newUser);
+	    e.preventDefault();
+	    const { socket } = this.props;
+	    const { email, password } = this.refs;
+	    const newUser = {
+	      email: email.value,
+	      password: password.value
+	    };
+	    socket.emit('user joined', newUser);
+	    browserHistory.push('/chat')
 	}
 	render(){
 		return (
@@ -55,7 +61,8 @@ export default class Login extends Component {
 
 
 
-const mapStateToProps = (state) => { 	
+const mapStateToProps = (state) => { 
+console.log(state)	
   return {
    
   }

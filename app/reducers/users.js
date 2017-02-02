@@ -6,10 +6,11 @@ import { types } from '../consts/';
 const initialState = {
   isFetching: false,
   isAuthenticated: false,
-  user:null
+  currentUser: null,
+  users: []
 };
 
-const user = (state = initialState, action) => {
+const users = (state = initialState, action) => {  
   switch (action.type) {
     case types.LOGIN_REQUEST:
       return {
@@ -17,13 +18,14 @@ const user = (state = initialState, action) => {
         isFetching: true,
         isAuthenticated: false
       };
-    case types.LOGIN_SUCCESS:
+    case types.LOGIN_SUCCESS:     
       return {
         ...state,
         isFetching: false,
         isAuthenticated: true,
         errorMessage: '',
-        user: action.nickname
+        users: [...state.users, action.nickname],
+        currentUser: action.nickname
       };
 
     case types.LOGIN_FAILURE:
@@ -47,4 +49,4 @@ const user = (state = initialState, action) => {
   }
 };
 
-export default user;
+export default users;

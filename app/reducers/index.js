@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import {messages} from './reducers.js'
-import user from './users';
+import users from './users';
 import signup from  './signUp'
 
 const rootReducer = combineReducers({
-  user,
+  users,
   signup,
   messages
 });

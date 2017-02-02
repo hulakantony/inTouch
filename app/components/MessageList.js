@@ -10,7 +10,9 @@ export default class MessageList extends Component{
 		messageList.scrollTop = messageList.scrollHeight;
 	}
 	render(){
+
 		const { messages } = this.props;
+		console.log(messages)
 		return (
 			<div className='chat-wrapper' ref="messageList">
 				<ul>

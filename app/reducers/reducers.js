@@ -9,13 +9,3 @@ export function messages (state = initialMessages, action){
 			return state;
 	}
 }
-
-const initialUsers = [];
-export function users (state = initialUsers, action){
-	switch(action.type){
-		case types.USER_JOIN_SUCCESS:
-			return [...state, action.user];
-		default: 
-			return state;
-	}
-}

@@ -4,20 +4,28 @@ import { sendMessage } from '../actions/actions'
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
-import io from 'socket.io-client';
-const socket = io('http://localhost:8080/');
+
+
+
 export default class ChatContainer extends Component {
+	constructor(props){
+		super(props);
+	}
 	componentDidMount(){
-		//socket.on('chat message', this._messageRecieve.bind(this));
+		const { socket } = this.props;
+		socket.on('chat message', this._messageRecieve.bind(this));
 	}
   
-	_messageRecieve(message){	
+	_messageRecieve(message, user){	
 		const { sendMessage } = this.props;
-		sendMessage(message, 'guest');
+		const currentUser = this.props.users.currentUser;		
+		sendMessage(message, currentUser);
 	}
 
-	messageSubmit(msg) {		
-		socket.emit('chat message', msg);		
+	messageSubmit(msg) {
+		const { socket } = this.props;
+		const currentUser = this.props.users.currentUser;		
+		socket.emit('chat message', msg, currentUser);		
 	}
 	render(){
 		const { messages, users } = this.props;
@@ -32,6 +40,7 @@ export default class ChatContainer extends Component {
 }
 
 const mapStateToProps = (state) => { 
+	console.log(123, state)
   return {    
     messages: state.messages,
     users: state.users
