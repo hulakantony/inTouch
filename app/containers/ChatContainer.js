@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendMessage, addUser } from '../actions/actions'
+import { sendMessage } from '../actions/actions';
+import { addUser } from '../actions/userActions';
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
 
 
 
-export default class ChatContainer extends Component {
+class ChatContainer extends Component {
 	constructor(props){
 		super(props);
 	}
@@ -15,6 +16,7 @@ export default class ChatContainer extends Component {
 		const { socket } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
 		socket.on('user joined', this._userJoined.bind(this))
+		console.log(this.props.addUser.toString())
 	}
   	_userJoined(user){
   		const { addUser } = this.props;

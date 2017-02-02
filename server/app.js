@@ -36,7 +36,7 @@ const staticAssetsPath = path.resolve(__dirname, 'static');
 app.use(express.static(staticAssetsPath));
 
 //import routes
-require('./routes/public')(app, passport);
+require('./routes/public/')(app, passport);
 require('./routes/api')(app);
 
 module.exports = app;

@@ -10,7 +10,6 @@ const requestLogin = ()=> ({
 });
 
 const receiveLogin = (user)=>{
-  console.log(333, user)
   return {
     type: types.LOGIN_SUCCESS,   
     nickname: user
@@ -26,7 +25,7 @@ const requestLogout = ()=> ({
   type: types.LOGOUT_SUCCESS
 });
 
-export const loginUser = (socket, creds)=> dispatch => {
+export const loginUser = (creds, socket)=> dispatch => {
   dispatch(requestLogin());
 
   fetch('http://localhost:8080/login', {
@@ -39,6 +38,7 @@ export const loginUser = (socket, creds)=> dispatch => {
       return response.json();
     }else{
       dispatch(loginError(error))
+      console.log(55, response)
     }
   }).then((response)=>{    
     let user = response.user.local;    
@@ -52,11 +52,11 @@ export const loginUser = (socket, creds)=> dispatch => {
     });
 };
 
-export const addUser = (user) => {
-  return {
+export const addUser = (user) => dispatch => {
+  dispatch({
     type: types.ADD_USER,
     user
-  }
+  })
 }
 
 

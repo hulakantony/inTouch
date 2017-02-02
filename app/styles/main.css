@@ -30,7 +30,12 @@ ul{
 }
 .message-data {
   margin-bottom: 15px;
+}
+.my-message-data{
   text-align: right;
+}
+.other-message-data{
+  text-align: left;
 }
 .message-data-name{
   padding: 0 5px;
@@ -68,6 +73,11 @@ ul{
 }
 .my-message {
   background: green;
+  float: right;
+}
+.other-message {
+  background: blue;
+  float: left;
 }
 .message-form-wrap{
   background: #ccc;

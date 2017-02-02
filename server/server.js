@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 const app = require('./app');
 const debug = require('debug')('sreamplay:server');
 const http = require('http');

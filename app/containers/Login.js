@@ -17,7 +17,7 @@ export default class Login extends Component {
 	      email: email.value,
 	      password: password.value
 	    };	
-	    loginUser(socket, newUser);    
+	    loginUser(newUser, socket);    
 	}
 	render(){
 		return (
@@ -61,7 +61,7 @@ console.log(state)
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user) => dispatch(loginUser(user)),
+    loginUser: (user, socket) => dispatch(loginUser(user, socket)),
    }
 }
 

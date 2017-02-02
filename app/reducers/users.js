@@ -24,7 +24,6 @@ const users = (state = initialState, action) => {
         isFetching: false,
         isAuthenticated: true,
         errorMessage: '',
-        users: [...state.users, action.nickname],
         currentUser: action.nickname
       };
 
