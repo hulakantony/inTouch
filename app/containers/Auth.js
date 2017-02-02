@@ -74,8 +74,8 @@ export default class Auth extends Component {
 	render(){
 		const { errors } = this.state;
 		return (
-		<div className="login-signin-wrap">
-			<form className="col-md-6" onSubmit={ e => this.handleSubmit(e) }>
+		<div className="login-signin-wrap clearfix">
+			<form className="col-md-4" onSubmit={ e => this.handleSubmit(e) }>
 					<div className="form-group">
 					    <label>Email address*</label>
 					    <input 
