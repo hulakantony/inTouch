@@ -38,7 +38,7 @@ class ChatContainer extends Component {
 			<div className="main-wrapper">	
 				<UsersList users={users} currentUser={user}/>
 				<div className="chat-container">
-					<MessageList messages={messages}/>
+					<MessageList messages={messages} currentUser={user}/>
 					<MessageForm messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
 				</div>
 			</div>

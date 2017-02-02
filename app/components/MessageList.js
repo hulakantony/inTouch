@@ -10,14 +10,13 @@ export default class MessageList extends Component{
 		messageList.scrollTop = messageList.scrollHeight;
 	}
 	render(){
-		const { messages } = this.props;
-		const username = localStorage.getItem('username');	
+		const { messages, currentUser } = this.props;		
 		return (
 			<div className='message-list clearfix' ref="messageList">
 				<ul>
 					{
 						messages.map((el, i) => {
-							const myMessage = username === el.user;
+							const myMessage = currentUser === el.user;
 							return <Message key={i} date={el.time} message={el.text} user={el.user}  myMessage={myMessage}/>
 						})
 					}
