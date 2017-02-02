@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { userLogin } from '../actions/actions';
 
-export default class Auth extends Component {
+const socket = io('http://localhost:8080/');
+export default class Login extends Component {
+	componentDidMount(){
+		socket.emit('user joined', this._userJoined)
+	}
+	_userJoined(user){
+		const { userLogin } = this.props;
+		userLogin(user)
+	}
+	handleSubmit(e, user){
 
+	}
 	render(){
 		return (
 		<div className="login-signin-wrap">
@@ -12,6 +23,7 @@ export default class Auth extends Component {
 					    	className="form-control"
 							placeholder="E-mail" 
 							type="text" 
+							ref="email"
 						/>
 					</div>
 					<div className="form-group">
@@ -19,6 +31,7 @@ export default class Auth extends Component {
 					    	className="form-control" 
 							placeholder="Password" 
 							type="password" 
+							ref="password"
 						/>
 					</div>
 					<button className="btn btn-primary">Login</button>
@@ -33,18 +46,18 @@ export default class Auth extends Component {
 
 
 
-// const mapStateToProps = (state) => { 	
-//   return {
+const mapStateToProps = (state) => { 	
+  return {
    
-//   }
-// }
+  }
+}
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
+const mapDispatchToProps = (dispatch) => {
+  return {
+  	userLogin: (user) => dispatch(userLogin(user))
+   }
+}
 
-//    }
-// }
 
-
-//export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
