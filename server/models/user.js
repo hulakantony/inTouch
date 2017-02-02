@@ -8,8 +8,18 @@ var userSchema = mongoose.Schema({
     nickname: String,
     email: String,
     password: String,
+    active: {
+      type: Boolean,
+      default: false
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now()
+    },
+    lastActive:Date,
     avatar: String
   },
+  
   facebook: {
     id: String,
     token: String,

@@ -1,7 +1,6 @@
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
 
-
 // load up the user model
 var User = require('../models/user');
 
@@ -19,8 +18,7 @@ module.exports = function (passport) {
     });
   });
 
-  // LOCAL LOGIN 
-
+  // LOCAL LOGIN
   passport.use('local-login', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
       usernameField: 'email',
@@ -46,14 +44,17 @@ module.exports = function (passport) {
             return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
 
           // all is well, return user
-          else
+          else {
+            user.local.active = true;
+            user.local.lastActive = Date.now();
             return done(null, user);
+          }
         });
       });
 
     }));
 
-  // LOCAL SIGNUP 
+  // LOCAL SIGNUP
   passport.use('local-signup', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
       usernameField: 'email',
@@ -87,35 +88,11 @@ module.exports = function (passport) {
               newUser.save(function (err) {
                 if (err)
                   return done(err);
-
                 return done(null, newUser);
               });
             }
-
-          });
-          // if the user is logged in but has no local account...
-        } else if (!req.user.local.email) {
-          User.findOne({'local.email': email}, function (err, user) {
-            if (err)
-              return done(err);
-            if (user) {
-              return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
-            } else {
-              var user = req.user;
-              user.local.email = email;
-              user.local.password = user.generateHash(password);
-              user.save(function (err) {
-                if (err)
-                  return done(err);
-                return done(null, user);
-              });
-            }
-          });
-        } else {
-          return done(null, req.user);
+          })
         }
-
       });
-
     }));
-}
+};
