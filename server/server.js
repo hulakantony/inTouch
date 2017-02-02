@@ -1,38 +1,91 @@
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const cors = require('cors');
-const path = require('path');
-const passport = require('passport');
-const session      = require('express-session');
-const flash    = require('flash');
-const mongoose = require('mongoose');
-const configDB = require('./config/database.js');
+'use strict';
+const app = require('./app');
+const debug = require('debug')('sreamplay:server');
+const http = require('http');
 
-//mongoose.connect(configDB.url); // connect to our database
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '8080');
+app.set('port', port);
 
 
-//const socket = require('./routes/socket.io');
+/**
+ * Create HTTP server.
+ */
 
-/*PASSPORT*/
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+const server = http.createServer(app);
 
-require('./routes/public')(app, passport);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-app.use(cors());
-const staticAssetsPath = path.resolve(__dirname, 'static');
-app.use(express.static(staticAssetsPath));
+//SocketIo connection...
+const io = require('socket.io')(server);
+
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
 });
 
-http.listen(8080, function(){
-  console.log('listening on *:8080');
-});
 
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
