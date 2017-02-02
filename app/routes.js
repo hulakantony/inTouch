@@ -9,8 +9,8 @@ import { checkAuth } from './actions/authActions';
 
 
 const requireAuth = (nextState, replace) => {
-  if(!checkAuth()) {
-    return replace(null, '/auth')
+  if(!checkAuth()) {  
+    return replace('/auth')
   }
 }
 export const routes = (
@@ -18,6 +18,6 @@ export const routes = (
 		<IndexRedirect to='login' component={App} />
 		<Route path='auth' component={Auth}/>
 		<Route path='login' component={Login}/>	
-		<Route path='chat' component={ChatContainer}/>			
+		<Route path='chat' onEnter={requireAuth} component={ChatContainer}/>			
 	</Route>
 )
