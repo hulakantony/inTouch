@@ -36,8 +36,7 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 	      dispatch(getActiveUsersFailure(error))	      
     }})
     .then(users => {
-    	const currentUser = getState().users.currentUser;
-    	console.log(123, users)
+    	const currentUser = getState().users.currentUser;    	
     	const withoutMe = users.filter(el => {
     		console.log(el.local.nickname)
     		return el.local.nickname !== currentUser;

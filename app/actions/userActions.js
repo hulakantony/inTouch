@@ -21,7 +21,7 @@ const loginError = (message)=> ({
   message
 });
 
-const requestLogout = ()=> ({
+export const requestLogout = ()=> ({
   type: types.LOGOUT_SUCCESS
 });
 
@@ -58,12 +58,11 @@ export const addUser = (user) => dispatch => {
     user
   })
 }
-export const userLeftChat = () => (dispatch, getState) => {
-  const currentUser = getState().users.currentUser;
-  localStorage.removeItem('username')
+
+export const userLeftChat = (user) => (dispatch) => {   
   dispatch({
     type: types.USER_LEFT_CHAT,
-    currentUser
+    user
   })
 }
 

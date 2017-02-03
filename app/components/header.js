@@ -2,12 +2,26 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import '../styles/main.css';
+import { userLeftChat, requestLogout } from '../actions/userActions'
 
 export default class Header extends Component {
-
+    constructor(props){
+        super(props);
+    }
+    componentDidMount(){
+        const { socket } = this.props;
+        socket.on('user left', this._userLeft.bind(this));
+    }
+    _userLeft(user){
+        const { userLeftChat } = this.props;        
+        userLeftChat(user)
+    }
     userLogout(){
-        const { userLeftChat } = this.props;
-        userLeftChat()
+        const { socket, requestLogout } = this.props;
+        const currentUser = this.props.users.currentUser;
+        requestLogout()
+        localStorage.removeItem('username')
+        socket.emit('user left', currentUser);
     }
     render() {
         const { isAuthenticated } = this.props.users;
@@ -52,8 +66,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    userLeftChat: () => dispatch(userLeftChat())
+    userLeftChat: (user) => dispatch(userLeftChat(user)),
+    requestLogout: () => dispatch(requestLogout())
   }
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

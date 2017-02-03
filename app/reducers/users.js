@@ -73,8 +73,9 @@ const users = (state = initialState, action) => {
         users: [...state.users, action.user]
       }
     case types.USER_LEFT_CHAT: 
-      const users = state.users.users.slice();
-      const currUser = action.currentUser;
+    console.log('user left')     
+      const users = state.users.slice();    
+      const currUser = action.user;
       const filteredUsers = users.filter(el => {
         return el !== currUser;
       })
