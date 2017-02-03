@@ -15,7 +15,8 @@ class ChatContainer extends Component {
 	componentDidMount(){
 		const { socket, getActiveUsers } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
-		socket.on('user joined', this._userJoined.bind(this));		
+		socket.on('user joined', this._userJoined.bind(this));	
+		socket.on('user disconnected', this._userDisconnected.bind(this))	
 		getActiveUsers()
 	}
   	_userJoined(user){
@@ -26,7 +27,15 @@ class ChatContainer extends Component {
 		const { sendMessage } = this.props;		
 		sendMessage(message);
 	}	
-	
+	_userDisconnected(user){
+		return user;
+	}
+	componentWillUnmount(){
+		console.log('unmount Chat')
+		const { socket } = this.props;	
+		const user = this.props.users.currentUser;
+		socket.emit('user disconnected', user)
+	}
 	messageSubmit(msg) {
 		const { socket } = this.props;				
 		socket.emit('chat message', msg);		

@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function UsersList({users, currentUser}) {
+	console.log(444, users)
 	return (
 		<div className='users-list-wrap'>
 			<ul>

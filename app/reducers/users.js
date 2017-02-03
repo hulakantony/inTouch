@@ -60,11 +60,12 @@ const users = (state = initialState, action) => {
         errorMessage: action.message
       }
     case types.GET_ACTIVE_USERS_SUCCESS:
-      console.log(7, action)
+      const currentUser = state.currentUser;
+      action.users.unshift(currentUser)
       return {
         ...state,
         isFetching: false,
-        users: [...state.users, ...action.users]
+        users: action.users
       }
     case types.ADD_USER:
     console.log(8, action)

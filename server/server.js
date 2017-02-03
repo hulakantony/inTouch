@@ -24,7 +24,7 @@ server.on('listening', onListening);
 //SocketIo connection...
 const io = require('socket.io')(server);
 
-io.on('connection', function(socket){
+io.on('connection', function(socket){	
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
@@ -33,7 +33,7 @@ io.on('connection', function(socket){
   })
   socket.on('user left', function(user){
   	io.emit('user left', user)
-  })
+  })  
 });
 
 
