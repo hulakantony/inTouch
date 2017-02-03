@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/header';
 import { checkAuth } from '../actions/authActions';
-import { userLeftChat } from '../actions/userActions';
+import { userLeftChat, userLogout } from '../actions/userActions';
 import '../styles/main.css';
 import io from 'socket.io-client';
 
@@ -13,14 +13,23 @@ class App extends Component {
 	}	
 	componentDidMount(){
 		socket.on('user left', this._userLeft.bind(this))
+		window.addEventListener('unload', this.closeWindow.bind(this))
+	}
+	conmponentWiilUnmount(){
+		window.removeEventListener('unload', this.closeWindow.bind(this))
 	}
 	_userLeft(user){
 		const { userLeftChat } = this.props;		
 		userLeftChat(user)
 	}
-	componentWillUnmount(){
-		const currentUser = this.props.users.currentUser;
+	userLogout(){
+		const { userLogout } = this.props;
+		userLogout();
+	}
+	closeWindow(){		
+		const currentUser = this.props.users.currentUser;		
 		localStorage.removeItem('username');
+		this.userLogout()
 		socket.emit('user left', currentUser);
 	}
 	render(){  	
@@ -37,15 +46,15 @@ class App extends Component {
 	}
 }
 const mapStateToProps = (state) => { 
-  return {    
-    messages: state.messages,
+  return {   
     users: state.users
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     checkAuth: () => dispatch(checkAuth()), 
-    userLeftChat : (user) => dispatch(userLeftChat(user))
+    userLeftChat : (user) => dispatch(userLeftChat(user)),
+    userLogout: () => dispatch(userLogout())
   }
 }
 
