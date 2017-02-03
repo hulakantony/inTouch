@@ -60,6 +60,7 @@ export const addUser = (user) => dispatch => {
 }
 export const userLeftChat = () => (dispatch, getState) => {
   const currentUser = getState().users.currentUser;
+  localStorage.removeItem('username')
   dispatch({
     type: types.USER_LEFT_CHAT,
     currentUser

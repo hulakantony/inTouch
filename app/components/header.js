@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import '../styles/main.css';
 
 export default class Header extends Component {
-    
+
+    userLogout(){
+        const { userLeftChat } = this.props;
+        userLeftChat()
+    }
     render() {
         const { isAuthenticated } = this.props.users;
         console.log('header-auth', isAuthenticated)
@@ -24,7 +28,7 @@ export default class Header extends Component {
                                 {
                                     !isAuthenticated ? <Link to={ '/login' } activeClassName='active' >Login</Link>
                                     :
-                                    <Link to={ '/login' } activeClassName='active' >Logout</Link>
+                                    <Link to={ '/login' } onClick={() => this.userLogout()} activeClassName='active' >Logout</Link>
                                 }
 
                                 
@@ -47,9 +51,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  // return {
-  //   sendMessage: (message, user) => dispatch(sendMessage(message, user))
-  // }
+  return {
+    userLeftChat: () => dispatch(userLeftChat())
+  }
 }
 
 export default connect(mapStateToProps)(Header);
