@@ -31,25 +31,29 @@ module.exports = function (passport) {
 
       // asynchronous
       process.nextTick(function () {
-        User.findOne({'local.email': email}, function (err, user) {
-          // if there are any errors, return the error
-          if (err)
-            return done(err);
-
-          // if no user is found, return the message
-          if (!user)
-            return done(null, false, req.flash('loginMessage', 'No user found.'));
-
-          if (!user.validPassword(password))
-            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-
-          // all is well, return user
-          else {
-            user.local.active = true;
-            user.local.lastActive = Date.now();
-            return done(null, user);
+        User.findOneAndUpdate({'local.email': email}, {
+          "$set": {
+            "local.active": true,
+            "local.lastActive": Date.now()
           }
-        });
+        })
+          .exec(function (err, user) {
+            // if there are any errors, return the error
+            if (err)
+              return done(err);
+
+            // if no user is found, return the message
+            if (!user)
+              return done(null, false, req.flash('loginMessage', 'No user found.'));
+
+            if (!user.validPassword(password))
+              return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+
+            // all is well, return user
+            else {
+              return done(null, user);
+            }
+          });
       });
 
     }));

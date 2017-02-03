@@ -10,7 +10,6 @@ var userSchema = mongoose.Schema({
     password: String,
     active: {
       type: Boolean,
-      default: false
     },
     createdAt: {
       type: Date,
