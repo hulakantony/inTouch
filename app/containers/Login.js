@@ -41,6 +41,7 @@ export default class Login extends Component {
 							ref="password"
 						/>
 					</div>
+					<div className="alert alert-danger" >Login or password is invalid</div>
 					<button className="btn btn-primary">Login</button>
 			</form>
 			

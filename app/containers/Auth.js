@@ -126,6 +126,8 @@ export default class Auth extends Component {
                         <div className="alert alert-danger" key={index}>{error}</div>
                     ))
                     }
+                    <div className="alert alert-danger" >This e-mail is already registered</div>
+                    <div className="alert alert-danger" >This nickname is already in use</div>
                     <button className="btn btn-primary">Submit</button>
                 </form>
             </div>

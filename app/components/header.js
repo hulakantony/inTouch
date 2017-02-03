@@ -30,10 +30,10 @@ export default class Header extends Component {
             <div>
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
-                        <Link to={ '/' } className="logo" activeClassName='active' >
+                        <div className="logo" activeClassName='active' >
                             <span className="logo-in">IN</span>
                             <span className="logo-touch">touch</span>
-                        </Link>
+                        </div>
                         <ul className="nav nav-pills header-nav">
                             <li role="presentation"  >
                                 <Link to={ '/chat' }  activeClassName='active' >Chat</Link>
