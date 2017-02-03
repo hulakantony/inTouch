@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/header';
+import { checkAuth } from '../actions/authActions';
 import '../styles/main.css';
 import io from 'socket.io-client';
 
 const socket = io('http://localhost:8080/');
-export default class App extends Component {
+class App extends Component {
 	constructor(){
 		super()		
 	}	
@@ -22,3 +23,16 @@ export default class App extends Component {
 		)
 	}
 }
+const mapStateToProps = (state) => { 
+  return {    
+    messages: state.messages,
+    users: state.users
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkAuth: () => dispatch(checkAuth()), 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

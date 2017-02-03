@@ -6,9 +6,7 @@ import Login from './containers/Login';
 import Header from './components/header';
 import ChatContainer from './containers/ChatContainer';
 import { checkAuth } from './actions/authActions';
-import io from 'socket.io-client';
 
-const socket = io('http://localhost:8080/');
 
 
 const requireAuth = (nextState, replace) => {
@@ -19,7 +17,7 @@ const requireAuth = (nextState, replace) => {
 export const routes = (
 	<Route path='/' component={App}>
 		<IndexRedirect to='login' component={App} />
-		<Route path='auth' socket={socket} component={Auth}/>
+		<Route path='auth' component={Auth}/>
 		<Route path='login' component={Login}/>	
 		<Route path='chat' onEnter={requireAuth} component={ChatContainer}/>			
 	</Route>
