@@ -59,6 +59,7 @@ export const addUser = (user) => dispatch => {
   })
 }
 export const userLeftChat = (user) => (dispatch) => { 
+  console.log(user)
   dispatch({
     type: types.USER_LEFT_CHAT,
     user
