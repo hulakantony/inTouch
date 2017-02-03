@@ -15,8 +15,7 @@ class ChatContainer extends Component {
 	componentDidMount(){
 		const { socket, getActiveUsers } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
-		socket.on('user joined', this._userJoined.bind(this));
-		// socket.on('user left', this._userLeft.bind(this));
+		socket.on('user joined', this._userJoined.bind(this));		
 		getActiveUsers()
 	}
   	_userJoined(user){
@@ -26,17 +25,7 @@ class ChatContainer extends Component {
 	_messageRecieve(message){	
 		const { sendMessage } = this.props;		
 		sendMessage(message);
-	}
-	// _userLeft(user){
-	// 	const { userLeftChat } = this.props;		
-	// 	userLeftChat(user)
-	// }
-	// componentWillUnmount(){
-	// 	const { socket } = this.props;
-	// 	const currentUser = this.props.users.currentUser;
-	// 	console.log('unmount')
-	// 	socket.emit('user left', currentUser);		
-	// }
+	}	
 	
 	messageSubmit(msg) {
 		const { socket } = this.props;				

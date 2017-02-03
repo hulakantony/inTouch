@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import '../styles/main.css';
-import { userLeftChat, requestLogout } from '../actions/userActions'
+import { userLeftChat, userLogout } from '../actions/userActions'
 
 export default class Header extends Component {
     constructor(props){
@@ -16,10 +16,10 @@ export default class Header extends Component {
         const { userLeftChat } = this.props;        
         userLeftChat(user)
     }
-    userLogout(){
-        const { socket, requestLogout } = this.props;
-        const currentUser = this.props.users.currentUser;
-        requestLogout()
+    handleUserLogout(){
+        const { socket, userLogout } = this.props;
+        const currentUser = this.props.users.currentUser;        
+        userLogout()
         localStorage.removeItem('username')
         socket.emit('user left', currentUser);
     }
@@ -50,7 +50,7 @@ export default class Header extends Component {
                                 {
                                     !isAuthenticated ? <Link to={ '/login' } activeClassName='active' >Login</Link>
                                     :
-                                    <Link to={ '/login' } onClick={() => this.userLogout()} activeClassName='active' >Logout</Link>
+                                    <Link to={ '/login' } onClick={() => this.handleUserLogout()} activeClassName='active' >Logout</Link>
                                 }
 
                                 
@@ -65,8 +65,7 @@ export default class Header extends Component {
 
 }
 
-const mapStateToProps = (state) => { 
-    console.log('header', state)
+const mapStateToProps = (state) => {     
   return {    
     users: state.users
   }
@@ -75,7 +74,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     userLeftChat: (user) => dispatch(userLeftChat(user)),
-    requestLogout: () => dispatch(requestLogout())
+    userLogout: () => dispatch(userLogout())
   }
 }
 
