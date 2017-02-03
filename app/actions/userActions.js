@@ -67,10 +67,11 @@ export const userLeftChat = (user) => (dispatch) => {
 }
 
 export const userLogout = () => dispatch => {
-  fetch('hhtp://localhost:8080/logout')
+  dispatch(requestLogout())
+  fetch('http://localhost:8080/logout')
     .then(response => {
       if (response.ok){        
-        dispatch(requestLogout())
+        //dispatch(requestLogout())
       }
     })
     .catch(err => {throw err;})
