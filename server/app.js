@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const configDB = require('./config/database.js');
 const app = express();
 
-
+mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
