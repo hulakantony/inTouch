@@ -28,8 +28,16 @@ class ChatContainer extends Component {
 		sendMessage(message);
 	}
 	_userLeft(user){
-
+		const { userLeftChat } = this.props;		
+		userLeftChat(user)
 	}
+	componentWillUnmount(){
+		const { socket } = this.props;
+		const currentUser = this.props.users.currentUser;
+		socket.emit('user left', currentUser);
+		console.log(1111111111111, 'unmount')
+	}
+	
 	messageSubmit(msg) {
 		const { socket } = this.props;				
 		socket.emit('chat message', msg);		
@@ -60,7 +68,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     sendMessage: (message, user) => dispatch(sendMessage(message, user)),
     addUser: (user) => dispatch(addUser(user)),
-    getActiveUsers: () => dispatch(getActiveUsers())
+    getActiveUsers: () => dispatch(getActiveUsers()),
+    userLeftChat: (user) => dispatch(userLeftChat(user))
   }
 }
 

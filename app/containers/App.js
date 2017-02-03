@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/header';
 import { checkAuth } from '../actions/authActions';
+import { userLeftChat } from '../actions/userActions';
 import '../styles/main.css';
 import io from 'socket.io-client';
 
@@ -10,6 +11,17 @@ class App extends Component {
 	constructor(){
 		super()		
 	}	
+	// componentDidMount(){
+	// 	socket.on('user left', this._userLeft.bind(this))
+	// }
+	// _userLeft(user){
+	// 	const { userLeftChat } = this.props;		
+	// 	userLeftChat(user)
+	// }
+	// componentWillUnmount(){
+	// 	const currentUser = this.props.users.currentUser;
+	// 	socket.emit('user left', currentUser);
+	// }
 	render(){  	
 		return (
 			<div>
@@ -32,6 +44,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     checkAuth: () => dispatch(checkAuth()), 
+    userLeftChat : (user) => dispatch(userLeftChat(user))
   }
 }
 
