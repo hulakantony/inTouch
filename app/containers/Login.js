@@ -43,7 +43,7 @@ export default class Login extends Component {
 					</div>
 					<button className="btn btn-primary">Login</button>
 			</form>
-			<button className="btn btn-primary"><i className="fa fa-vk" aria-hidden="true"></i></button>
+			
 		</div>
 		)
 	}
@@ -68,3 +68,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
+// <button className="btn btn-primary"><i className="fa fa-vk" aria-hidden="true"></i></button>

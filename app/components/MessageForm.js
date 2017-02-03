@@ -34,8 +34,10 @@ export default class MessageForm extends PureComponent {
 		return (
 			<div className='message-form-wrap'>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
-					<input type="text" placeholder="Type your message" defaultValue='' ref="text" />
-					<input type="submit" value="Send" />
+					<div className="form-group col-md-10">
+						<input type="text" placeholder="Type your message" className="form-control " defaultValue='' ref="text" />
+					</div>
+					<input className="btn btn-primary" type="submit" value="Send" />
 				</form>
 			</div>
 		);
