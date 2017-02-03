@@ -42,7 +42,7 @@ export const loginUser = (creds, socket)=> dispatch => {
     }
   }).then((response)=>{    
     let user = response.user.local;    
-    localStorage.setItem('username', user.nickname);  
+    localStorage.setItem('username', user.nickname);     
     socket.emit('user joined', user.nickname);
     dispatch(receiveLogin(user.nickname));    
     browserHistory.push('/chat');

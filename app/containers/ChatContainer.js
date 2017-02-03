@@ -5,18 +5,18 @@ import { addUser, userLeftChat } from '../actions/userActions';
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
+import io from 'socket.io-client';
 
-
-
+const socket = io('http://localhost:8080/');
 class ChatContainer extends Component {
 	constructor(props){
 		super(props);
 	}
 	componentDidMount(){
-		const { socket, getActiveUsers } = this.props;
+		const { getActiveUsers } = this.props;
+		const socket = io('http://localhost:8080/');
 		socket.on('chat message', this._messageRecieve.bind(this));
-		socket.on('user joined', this._userJoined.bind(this));	
-		socket.on('user disconnected', this._userDisconnected.bind(this))	
+		socket.on('user joined', this._userJoined.bind(this));		
 		getActiveUsers()
 	}
   	_userJoined(user){
@@ -34,7 +34,7 @@ class ChatContainer extends Component {
 		console.log('unmount Chat')
 		const { socket } = this.props;	
 		const user = this.props.users.currentUser;
-		socket.emit('user disconnected', user)
+		socket.disconnect()
 	}
 	messageSubmit(msg) {
 		const { socket } = this.props;				

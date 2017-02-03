@@ -21,7 +21,7 @@ export default class Header extends Component {
         const currentUser = this.props.users.currentUser;        
         userLogout()
         localStorage.removeItem('username')
-        socket.emit('user left', currentUser);
+        socket.emit('user left', currentUser);        
     }
     render() {
         const { isAuthenticated } = this.props.users;
@@ -30,7 +30,7 @@ export default class Header extends Component {
             <div>
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
-                        <div className="logo" activeClassName='active' >
+                        <div className="logo" >
                             <span className="logo-in">IN</span>
                             <span className="logo-touch">touch</span>
                         </div>
