@@ -36,8 +36,16 @@ export default class Header extends Component {
                         </a>
                         <ul className="nav nav-pills header-nav">
                             <li role="presentation"  >
+                                <Link to={ '/chat' }  activeClassName='active' >Chat</Link>
+                            </li>
+
+                        { !isAuthenticated ?
+                            <li role="presentation"  >
                                 <Link to={ '/auth' } activeClassName='active' >Sign In</Link>
                             </li>
+                            :
+                            null
+                        }
                             <li role="presentation"  >
                                 {
                                     !isAuthenticated ? <Link to={ '/login' } activeClassName='active' >Login</Link>
