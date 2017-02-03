@@ -7,7 +7,6 @@ module.exports = function (app, passport) {
     res.send({message: 'Welcome to fabulous inTouch CHAT'}); // load the index.ejs file
   });
 
-
   // route for showing the profile page
   app.get('/profile', isLoggedIn, function (req, res) {
     res.status(200).json({
@@ -17,23 +16,28 @@ module.exports = function (app, passport) {
     })
   });
 
-  
-
-// AUTHENTICATE (FIRST LOGIN) 
-
+// AUTHENTICATE (FIRST LOGIN)
   // locally
   // process the login form
-  app.post('/login', passport.authenticate('local-login'), function (req, res) {
-    console.log(req.user);
-    res.status(200).json({
-      status: 'logged',
-      user: req.user
-    });
-  });
+  app.post('/login', function (req, res, next) {
+      passport.authenticate('local-login', function (err, user, info) {
+        if (err) {
+          res.status(err.status).send(err.message);
+        }else{
+          res.status(200).json({
+            status: 'logged',
+            user: user
+          });
+        }
+      })(req, res, next);
+    }
+  );
 
   // SIGNUP
   // process the signup form
-  app.post('/signup', passport.authenticate('local-signup'), function (req, res) {
+  app.post('/signup', passport.authenticate('local-signup', function (res, req, info) {console.log('hgtjtgjgjg');
+    console.log(req, res, info);
+  }), function (req, res) {
     res.status(200).json({
       status: 'created',
       user: req.user
