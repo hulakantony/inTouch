@@ -31,6 +31,9 @@ io.on('connection', function(socket){
   socket.on('user joined', function(user){
   	io.emit('user joined', user)
   })
+  socket.on('user left', function(user){
+  	io.emit('user left', user)
+  })
 });
 
 

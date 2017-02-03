@@ -44,7 +44,7 @@ export const loginUser = (creds, socket)=> dispatch => {
     let user = response.user.local;    
     localStorage.setItem('username', user.nickname);  
     socket.emit('user joined', user.nickname);
-    dispatch(receiveLogin(user.nickname));   
+    dispatch(receiveLogin(user.nickname));    
     browserHistory.push('/chat');
   })
     .catch(error => {
@@ -56,6 +56,13 @@ export const addUser = (user) => dispatch => {
   dispatch({
     type: types.ADD_USER,
     user
+  })
+}
+export const userLeftChat = () => (dispatch, getState) => {
+  const currentUser = getState().users.currentUser;
+  dispatch({
+    type: types.USER_LEFT_CHAT,
+    currentUser
   })
 }
 

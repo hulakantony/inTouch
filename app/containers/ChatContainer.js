@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendMessage } from '../actions/actions';
-import { addUser } from '../actions/userActions';
+import { sendMessage, getActiveUsers } from '../actions/actions';
+import { addUser, userLeftChat } from '../actions/userActions';
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
@@ -13,9 +13,11 @@ class ChatContainer extends Component {
 		super(props);
 	}
 	componentDidMount(){
-		const { socket } = this.props;
+		const { socket, getActiveUsers } = this.props;
 		socket.on('chat message', this._messageRecieve.bind(this));
-		socket.on('user joined', this._userJoined.bind(this))
+		socket.on('user joined', this._userJoined.bind(this));
+		socket.on('user left', this._userLeft.bind(this));
+		getActiveUsers()
 	}
   	_userJoined(user){
   		const { addUser } = this.props;
@@ -25,7 +27,9 @@ class ChatContainer extends Component {
 		const { sendMessage } = this.props;		
 		sendMessage(message);
 	}
+	_userLeft(user){
 
+	}
 	messageSubmit(msg) {
 		const { socket } = this.props;				
 		socket.emit('chat message', msg);		
@@ -55,7 +59,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     sendMessage: (message, user) => dispatch(sendMessage(message, user)),
-    addUser: (user) => dispatch(addUser(user))
+    addUser: (user) => dispatch(addUser(user)),
+    getActiveUsers: () => dispatch(getActiveUsers())
   }
 }
 
