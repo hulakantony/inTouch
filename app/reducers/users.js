@@ -72,9 +72,7 @@ const users = (state = initialState, action) => {
         ...state,
         users: [...state.users, action.user]
       }
-    case types.USER_LEFT_CHAT: 
-      console.log(9 , action)
-      console.log(state)
+    case types.USER_LEFT_CHAT:      
       const users = state.users.slice();    
       const currUser = action.user;
       const filteredUsers = users.filter(el => {
