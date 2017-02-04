@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Message from './Message';
+import TypersList from './TypersList';
 
 export default class MessageList extends Component{
 	constructor(props){
@@ -10,7 +11,7 @@ export default class MessageList extends Component{
 		messageList.scrollTop = messageList.scrollHeight;
 	}
 	render(){
-		const { messages, currentUser } = this.props;		
+		const { messages, currentUser, typers } = this.props;		
 		return (
 			<div className='message-list clearfix' ref="messageList">
 				<ul>
@@ -21,6 +22,7 @@ export default class MessageList extends Component{
 						})
 					}
 				</ul>
+				{typers.length ? <TypersList typers={typers}/> : null}
 			</div>
 		)
 	}

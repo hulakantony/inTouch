@@ -70,7 +70,7 @@ export const userLeftChat = (user) => (dispatch) => {
 }
 
 export const userLogout = () => (dispatch, getState) => {
-   dispatch(requestLogout())
+   dispatch(requestLogout())   
   fetch('http://localhost:8080/logout')
     .then(response => {
       if (response.ok){        

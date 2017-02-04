@@ -49,5 +49,19 @@ export const getActiveUsers = () => (dispatch, getState) =>{
     })
 }
 
+export const typing = username => {
+  return {
+    type: types.TYPING,
+    username
+  };
+}
+
+export const stopTyping = username => {
+  return {
+    type: types.STOP_TYPING,
+    username
+  };
+}
+
 
 

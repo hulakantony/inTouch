@@ -18,7 +18,7 @@ class ChatContainer extends Component {
 		socket.on('user left', this._userLeft.bind(this))
 		socket.on('user joined', this._userJoined.bind(this));		
 		getActiveUsers()
-	}
+	}	
   	_userJoined(user){
   		const { addUser } = this.props;
   		addUser(user)
@@ -35,7 +35,8 @@ class ChatContainer extends Component {
 		const { socket } = this.props;	
 		const currentUser = this.props.currentUser;
 		socket.emit('disconnect');
-		socket.emit('user left', currentUser)
+		socket.emit('user left', currentUser);
+		socket.emit('stop typing', currentUser)
 		socket.disconnect(true)		
 	}
 	messageSubmit(msg) {
@@ -43,15 +44,15 @@ class ChatContainer extends Component {
 		socket.emit('chat message', msg);		
 	}	
 	render(){
-		const { messages, users } = this.props;
+		const { messages, users, socket, typers } = this.props;
 		const user = this.props.users.currentUser;
 
 		return (
 			<div className="main-wrapper">	
 				<UsersList users={users} currentUser={user}/>
 				<div className="chat-container">
-					<MessageList messages={messages} currentUser={user}/>
-					<MessageForm messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
+					<MessageList typers={typers} messages={messages} currentUser={user}/>
+					<MessageForm socket={socket} messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
 				</div>
 			</div>
 		);
@@ -62,7 +63,8 @@ const mapStateToProps = (state) => {
   return {    
     messages: state.messages,
     users: state.users,
-    socket: state.socket
+    socket: state.socket,
+    typers: state.typers
   }
 }
 const mapDispatchToProps = (dispatch) => {

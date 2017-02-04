@@ -27,7 +27,7 @@ const io = require('socket.io')(server);
 
 io.on('connection', function(socket){	
 	socket.on('connect', function(){
-		console.log( 'sohet has connected to the chat.' + socket.id);
+		console.log( 'socket has connected to the chat.' + socket.id);
 		io.emit('connect')
 	})
 	socket.on('chat message', function(msg){
@@ -39,6 +39,13 @@ io.on('connection', function(socket){
 	socket.on('user left', function(user){
 		io.emit('user left', user)
 	})  
+	socket.on('typing', function (user) {
+    	io.emit('typing', user);
+    });
+    socket.on('stop typing', function (user) {
+    	console.log('stop typing')
+    	io.emit('stop typing', user);
+    });
 	socket.on('disconnect', function(){
 		console.log('disconnect')
 		socket.disconnect(true)
