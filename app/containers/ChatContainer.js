@@ -7,15 +7,15 @@ import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:8080/');
+
 class ChatContainer extends Component {
 	constructor(props){
 		super(props);
 	}
 	componentDidMount(){
-		const { getActiveUsers } = this.props;
-		const socket = io('http://localhost:8080/');
+		const { getActiveUsers, socket } = this.props;		
 		socket.on('chat message', this._messageRecieve.bind(this));
+		socket.on('user left', this._userLeft.bind(this))
 		socket.on('user joined', this._userJoined.bind(this));		
 		getActiveUsers()
 	}
@@ -27,19 +27,21 @@ class ChatContainer extends Component {
 		const { sendMessage } = this.props;		
 		sendMessage(message);
 	}	
-	_userDisconnected(user){
-		return user;
+	_userLeft(user){
+		const { userLeftChat } = this.props;		
+		userLeftChat(user)
 	}
-	componentWillUnmount(){
-		console.log('unmount Chat')
+	componentWillUnmount(){		
 		const { socket } = this.props;	
-		const user = this.props.users.currentUser;
-		socket.disconnect()
+		const currentUser = this.props.currentUser;
+		socket.emit('disconnect');
+		socket.emit('user left', currentUser)
+		socket.disconnect(true)		
 	}
 	messageSubmit(msg) {
 		const { socket } = this.props;				
 		socket.emit('chat message', msg);		
-	}
+	}	
 	render(){
 		const { messages, users } = this.props;
 		const user = this.props.users.currentUser;
@@ -59,7 +61,8 @@ class ChatContainer extends Component {
 const mapStateToProps = (state) => { 
   return {    
     messages: state.messages,
-    users: state.users
+    users: state.users,
+    socket: state.socket
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -67,7 +70,7 @@ const mapDispatchToProps = (dispatch) => {
     sendMessage: (message, user) => dispatch(sendMessage(message, user)),
     addUser: (user) => dispatch(addUser(user)),
     getActiveUsers: () => dispatch(getActiveUsers()),
-    userLeftChat: (user) => dispatch(userLeftChat(user))
+    userLeftChat: (user) => dispatch(userLeftChat(user))   
   }
 }
 

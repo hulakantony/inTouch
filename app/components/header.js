@@ -8,20 +8,22 @@ export default class Header extends Component {
     constructor(props){
         super(props);
     }
-    componentDidMount(){
-        const { socket } = this.props;
-        socket.on('user left', this._userLeft.bind(this));
+    componentWillReceiveProps(nextProps){        
+        if(this.props.socket !== nextProps.socket){            
+            const { socket } = nextProps;
+            socket.on('user left', this._userLeft.bind(this));
+        }
     }
     _userLeft(user){
         const { userLeftChat } = this.props;        
         userLeftChat(user)
     }
     handleUserLogout(){
-        const { socket, userLogout } = this.props;
-        const currentUser = this.props.users.currentUser;        
+        const { userLogout, socket } = this.props;
+        const currentUser = this.props.users.currentUser;       
         userLogout()
-        localStorage.removeItem('username')
-        socket.emit('user left', currentUser);        
+        localStorage.removeItem('username');        
+        socket.emit('user left', currentUser);         
     }
     render() {
         const { isAuthenticated } = this.props.users;
@@ -67,7 +69,8 @@ export default class Header extends Component {
 
 const mapStateToProps = (state) => {     
   return {    
-    users: state.users
+    users: state.users,
+    socket: state.socket
   }
 }
 

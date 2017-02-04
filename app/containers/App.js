@@ -4,20 +4,25 @@ import Header from '../components/header';
 import { checkAuth } from '../actions/authActions';
 import { userLeftChat, userLogout } from '../actions/userActions';
 import '../styles/main.css';
-import io from 'socket.io-client';
+//import io from 'socket.io-client';
 
-const socket = io('http://localhost:8080/');
+
 class App extends Component {
 	constructor(){
 		super()		
 	}	
 	componentDidMount(){
-		socket.on('user left', this._userLeft.bind(this))
 		window.addEventListener('unload', this.closeWindow.bind(this))
 	}
 	conmponentWiilUnmount(){
 		window.removeEventListener('unload', this.closeWindow.bind(this))
 	}
+	componentWillReceiveProps(nextProps){        
+        if(this.props.socket !== nextProps.socket){           
+            const { socket } = nextProps;
+            socket.on('user left', this._userLeft.bind(this));
+        }
+    }
 	_userLeft(user){
 		const { userLeftChat } = this.props;		
 		userLeftChat(user)
@@ -27,18 +32,18 @@ class App extends Component {
 		userLogout();
 	}
 	closeWindow(){		
-		const currentUser = this.props.users.currentUser;		
+		const currentUser = this.props.users.currentUser;	
+		const {userLogout, socket} = this.props;	
 		localStorage.removeItem('username');
-		this.userLogout()
 		socket.emit('user left', currentUser);
+		userLogout()		
 	}
 	render(){  	
 		return (
 			<div>
-				<Header socket={socket}/>
+				<Header />
 				<div className="content-wrap clearfix">				
-					{this.props.children && React.cloneElement(this.props.children, {
-              socket: socket})}
+					{this.props.children }
 				</div>
 			</div>
 			
@@ -47,7 +52,8 @@ class App extends Component {
 }
 const mapStateToProps = (state) => { 
   return {   
-    users: state.users
+    users: state.users,
+    socket: state.socket
   }
 }
 const mapDispatchToProps = (dispatch) => {

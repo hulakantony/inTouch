@@ -24,12 +24,10 @@ const getActiveUsersSuccess = (users)=>{
   }  
 };
 
-export const getActiveUsers = () => (dispatch, getState) =>{
-	console.log('fetching')
+export const getActiveUsers = () => (dispatch, getState) =>{	
 	dispatch(getActiveUsersRequest())
 	fetch('http://localhost:8080/users?active=true')
-	.then(response => {
-		console.log(response)
+	.then(response => {		
 	    if (response.ok) {	    
 	    	return response.json();	      
 	    } else {
@@ -37,8 +35,7 @@ export const getActiveUsers = () => (dispatch, getState) =>{
     }})
     .then(users => {
     	const currentUser = getState().users.currentUser;    	
-    	const withoutMe = users.filter(el => {
-    		console.log(el.local.nickname)
+    	const withoutMe = users.filter(el => {    		
     		return el.local.nickname !== currentUser;
     	})
     	let usersNicknames = [];
@@ -51,4 +48,6 @@ export const getActiveUsers = () => (dispatch, getState) =>{
     	dispatch(getActiveUsersFailure(error))
     })
 }
+
+
 

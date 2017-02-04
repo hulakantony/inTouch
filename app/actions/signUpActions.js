@@ -21,15 +21,13 @@ export const signUpUser = (creds)=> dispatch => {
     method: 'post',
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body: JSON.stringify(creds)
-  }).then(response => {
-    console.log(response);
+  }).then(response => {    
     if (response.ok) {
       return response.json();
     }else{
       dispatch(signUpError(error))
     }
-  }).then((response)=>{
-    console.log(response);
+  }).then((response)=>{    
     dispatch(signUpSuccess());
     browserHistory.push('/login');
   })

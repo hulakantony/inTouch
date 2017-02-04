@@ -12,15 +12,13 @@ const initialState = {
 
 const users = (state = initialState, action) => {  
   switch (action.type) {
-    case types.LOGIN_REQUEST:
-    console.log(1, action)
+    case types.LOGIN_REQUEST:    
       return {
         ...state,
         isFetching: true,
         isAuthenticated: false
       };
-    case types.LOGIN_SUCCESS: 
-    console.log(2, action)    
+    case types.LOGIN_SUCCESS:       
       return {
         ...state,
         isFetching: false,
@@ -29,8 +27,7 @@ const users = (state = initialState, action) => {
         currentUser: action.nickname
       };
 
-    case types.LOGIN_FAILURE:
-    console.log(3, action)
+    case types.LOGIN_FAILURE:    
       return {
         ...state,
         isFetching: false,
@@ -38,22 +35,19 @@ const users = (state = initialState, action) => {
         errorMessage: action.message
       };
 
-    case types.LOGOUT_SUCCESS:
-    console.log(4, action)
+    case types.LOGOUT_SUCCESS:    
       return {
         ...state,
         isFetching: false,
         isAuthenticated: false,
         currentUser: null
       };
-    case types.GET_ACTIVE_USERS_REQUEST:
-    console.log(5, action) 
+    case types.GET_ACTIVE_USERS_REQUEST:   
       return {
         ...state,
         isFetching: true
       }
-    case types.GET_ACTIVE_USERS_FAILURE:
-    console.log(6, action)
+    case types.GET_ACTIVE_USERS_FAILURE:    
       return {
         ...state,
         isFetching: false,
@@ -67,14 +61,12 @@ const users = (state = initialState, action) => {
         isFetching: false,
         users: action.users
       }
-    case types.ADD_USER:
-    console.log(8, action)
+    case types.ADD_USER:    
       return {
         ...state,
         users: [...state.users, action.user]
       }
-    case types.USER_LEFT_CHAT: 
-    console.log('user left')     
+    case types.USER_LEFT_CHAT:     
       const users = state.users.slice();    
       const currUser = action.user;
       const filteredUsers = users.filter(el => {

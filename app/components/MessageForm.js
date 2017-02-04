@@ -9,8 +9,7 @@ export default class MessageForm extends PureComponent {
 	handleSubmit(e) {
 		e.preventDefault();
 		const { text } = this.refs;		
-		const { messageSubmit, user } = this.props;
-		console.log(666, user)
+		const { messageSubmit, user } = this.props;		
 		if(text.value){
 			const newMessage = {
 		        id: `${Date.now()}${uuid.v4()}`,		        

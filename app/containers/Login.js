@@ -11,13 +11,13 @@ export default class Login extends Component {
 	}	
 	handleSubmit(e){
 	    e.preventDefault();
-	    const { socket, loginUser } = this.props;
+	    const { loginUser } = this.props;
 	    const { email, password } = this.refs;
 	    const newUser = {
 	      email: email.value,
 	      password: password.value
 	    };	
-	    loginUser(newUser, socket);    
+	    loginUser(newUser);    
 	}
 	render(){
 		return (
@@ -54,7 +54,6 @@ export default class Login extends Component {
 
 
 const mapStateToProps = (state) => { 
-console.log(state)	
   return {
    
   }
@@ -62,7 +61,7 @@ console.log(state)
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (user, socket) => dispatch(loginUser(user, socket)),
+    loginUser: (user) => dispatch(loginUser(user)),
    }
 }
 

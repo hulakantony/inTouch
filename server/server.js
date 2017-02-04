@@ -26,8 +26,10 @@ var allClients = [];
 const io = require('socket.io')(server);
 
 io.on('connection', function(socket){	
-	console.log( socket.name + ' has connected from the chat.' + socket.id);
-	allClients.push(socket);	
+	socket.on('connect', function(){
+		console.log( 'sohet has connected to the chat.' + socket.id);
+		io.emit('connect')
+	})
 	socket.on('chat message', function(msg){
 		io.emit('chat message', msg);
 	});
@@ -38,9 +40,8 @@ io.on('connection', function(socket){
 		io.emit('user left', user)
 	})  
 	socket.on('disconnect', function(){
-		console.log( socket.name + ' has disconnected from the chat.' + socket.id);
-		var i = allClients.indexOf(socket);
-      	allClients.splice(i, 1);
+		console.log('disconnect')
+		socket.disconnect(true)
 	})
 });
 

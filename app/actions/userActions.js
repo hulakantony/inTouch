@@ -3,7 +3,7 @@
  */
 import {types} from '../consts/';
 import {browserHistory} from 'react-router';
-
+import io from 'socket.io-client';
 
 const requestLogin = ()=> ({
   type: types.LOGIN_REQUEST  
@@ -24,8 +24,11 @@ const loginError = (message)=> ({
 export const requestLogout = ()=> ({
   type: types.LOGOUT_SUCCESS
 });
-
-export const loginUser = (creds, socket)=> dispatch => {
+export const getSocket = socket => ({
+  type: types.GET_SOCKET,
+  socket
+})
+export const loginUser = (creds)=> dispatch => {
   dispatch(requestLogin());
 
   fetch('http://localhost:8080/login', {
@@ -33,16 +36,16 @@ export const loginUser = (creds, socket)=> dispatch => {
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body: JSON.stringify(creds)
   }).then(response => {
-    if (response.ok) {
-      console.log(response)
+    if (response.ok) {      
       return response.json();
     }else{
-      dispatch(loginError(error))
-      console.log(55, response)
+      dispatch(loginError(error))      
     }
   }).then((response)=>{    
     let user = response.user.local;    
-    localStorage.setItem('username', user.nickname);     
+    localStorage.setItem('username', user.nickname); 
+    const socket = io('http://localhost:8080');
+    dispatch(getSocket(socket))  
     socket.emit('user joined', user.nickname);
     dispatch(receiveLogin(user.nickname));    
     browserHistory.push('/chat');
@@ -66,8 +69,8 @@ export const userLeftChat = (user) => (dispatch) => {
   })
 }
 
-export const userLogout = () => dispatch => {
-  dispatch(requestLogout())
+export const userLogout = () => (dispatch, getState) => {
+   dispatch(requestLogout())
   fetch('http://localhost:8080/logout')
     .then(response => {
       if (response.ok){        
