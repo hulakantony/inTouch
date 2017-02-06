@@ -22,11 +22,11 @@ module.exports = function (app, passport) {
   app.post('/login', function (req, res, next) {
       passport.authenticate('local-login', function (err, user, info) {
         if (err) {
-          return res.status(err.status).send(err.message);
+          return res.status(err.status).send( err);
         }
         req.logIn(user, function (err) {
           if (err) {
-            res.status(401).send(err);
+            res.status(401).send({message: err});
           }
           res.status(200).json({
             status: 'logged',
@@ -43,11 +43,11 @@ module.exports = function (app, passport) {
   app.post('/signup', function (req, res, next) {
       passport.authenticate('local-signup', function (err, user, info) {
         if (err) {
-          res.status(err.status).send(err.message);
+          res.status(err.status).send(err);
         }
         req.logIn(user, function (err) {
           if (err) {
-            res.status(401).send(err);
+            res.status(401).send({message: err});
           }
           res.status(200).json({
             status: 'created',
@@ -60,8 +60,8 @@ module.exports = function (app, passport) {
 
 
   //LOGOUT
-  app.get('/logout', userSetActiveToFalse, function (req, res) {
-    let user = req.user;
+  app.post('/logout', userSetActiveToFalse, function (req, res) {
+    let user = req.user;   
     req.logout();
     res.status(200).json({
       status: 'logged out',
@@ -80,11 +80,14 @@ module.exports = function (app, passport) {
 
   // route middleware to make set active state to false before logged out
   function userSetActiveToFalse(req, res, next) {
-    let user = req.user;
+    console.log(' logged out')
+    let user = req.body.user;
+    console.log(user)
     if (!user) {
-      return next("No active users.");
+      res.status(401).send({message:"No active users."});
+      return;
     }
-    User.findOneAndUpdate({'local.email': user.local.email}, {
+    User.findOneAndUpdate({'local.nickname': user}, {
       "$set": {
         "local.active": false,
         "lastActive": Date.now()
