@@ -22,32 +22,51 @@ module.exports = function (app, passport) {
   app.post('/login', function (req, res, next) {
       passport.authenticate('local-login', function (err, user, info) {
         if (err) {
-          res.status(err.status).send(err.message);
-        }else{
+          return res.status(err.status).send(err.message);
+        }
+        req.logIn(user, function (err) {
+          if (err) {
+            res.status(401).send(err);
+          }
           res.status(200).json({
             status: 'logged',
             user: user
           });
-        }
+        });
       })(req, res, next);
     }
   );
 
   // SIGNUP
   // process the signup form
-  app.post('/signup', passport.authenticate('local-signup', function (res, req, info) {console.log('hgtjtgjgjg');
-    console.log(req, res, info);
-  }), function (req, res) {
-    res.status(200).json({
-      status: 'created',
-      user: req.user
-    });
-  });
+
+  app.post('/signup', function (req, res, next) {
+      passport.authenticate('local-signup', function (err, user, info) {
+        if (err) {
+          res.status(err.status).send(err.message);
+        }
+        req.logIn(user, function (err) {
+          if (err) {
+            res.status(401).send(err);
+          }
+          res.status(200).json({
+            status: 'created',
+            user: user
+          });
+        });
+      })(req, res, next);
+    }
+  );
 
 
   //LOGOUT
   app.get('/logout', userSetActiveToFalse, function (req, res) {
+    let user = req.user;
     req.logout();
+    res.status(200).json({
+      status: 'logged out',
+      user: user
+    });
   });
 
 // route middleware to make sure a user is logged in
@@ -62,7 +81,9 @@ module.exports = function (app, passport) {
   // route middleware to make set active state to false before logged out
   function userSetActiveToFalse(req, res, next) {
     let user = req.user;
-    if(!user)return next();
+    if (!user) {
+      return next("No active users.");
+    }
     User.findOneAndUpdate({'local.email': user.local.email}, {
       "$set": {
         "local.active": false,
