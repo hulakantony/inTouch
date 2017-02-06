@@ -70,8 +70,13 @@ export const userLeftChat = (user) => (dispatch) => {
 }
 
 export const userLogout = () => (dispatch, getState) => {
-   dispatch(requestLogout())   
-  fetch('http://localhost:8080/logout')
+  const user = getState().users.currentUser;
+   //dispatch(requestLogout())   
+  fetch('http://localhost:8080/logout', {
+    method: 'post',
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    body: JSON.stringify(user)
+  })
     .then(response => {
       if (response.ok){        
         //dispatch(requestLogout())
