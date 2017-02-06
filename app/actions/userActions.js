@@ -36,22 +36,27 @@ export const loginUser = (creds)=> dispatch => {
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body: JSON.stringify(creds)
   }).then(response => {
-    if (response.ok) {      
+    if (response.ok) {    
+      console.log(123, response)  
       return response.json();
-    }else{
-      dispatch(loginError(error))      
+
+    }else{     
+      dispatch(loginError(response.statusText));
+      return null;     
     }
-  }).then((response)=>{    
-    let user = response.user.local;    
-    localStorage.setItem('username', user.nickname); 
-    const socket = io('http://localhost:8080');
-    dispatch(getSocket(socket))  
-    socket.emit('user joined', user.nickname);
-    dispatch(receiveLogin(user.nickname));    
-    browserHistory.push('/chat');
+  }).then((response)=>{  
+    if(response){       
+      let user = response.user.local;    
+      localStorage.setItem('username', user.nickname); 
+      const socket = io('http://localhost:8080');
+      dispatch(getSocket(socket))  
+      socket.emit('user joined', user.nickname);
+      dispatch(receiveLogin(user.nickname));    
+      browserHistory.push('/chat');
+  }
   })
     .catch(error => {
-      dispatch(loginError(error))
+      throw error;
     });
 };
 
@@ -71,12 +76,8 @@ export const userLeftChat = (user) => (dispatch) => {
 
 export const userLogout = () => (dispatch, getState) => {
   const user = getState().users.currentUser;
-   //dispatch(requestLogout())   
-  fetch('http://localhost:8080/logout', {
-    method: 'post',
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-    body: JSON.stringify(user)
-  })
+   dispatch(requestLogout())   
+  fetch('http://localhost:8080/logout')
     .then(response => {
       if (response.ok){        
         //dispatch(requestLogout())
