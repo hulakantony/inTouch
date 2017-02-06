@@ -41,10 +41,12 @@ export const loginUser = (creds)=> dispatch => {
       return response.json();
 
     }else{     
+      console.log(response.json());
       dispatch(loginError(response.statusText));
       return null;     
     }
-  }).then((response)=>{  
+  }).then((response)=>{ 
+    console.log(response); 
     if(response){       
       let user = response.user.local;    
       localStorage.setItem('username', user.nickname); 

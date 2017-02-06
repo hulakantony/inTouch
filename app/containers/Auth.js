@@ -82,6 +82,8 @@ export default class Auth extends Component {
 
     render() {
         const {errors} = this.state;
+        const { message } = this.props.signup;
+        console.log(message)
         return (
             <div className="login-signin-wrap">
                 <form className="col-md-6" onSubmit={ e => this.handleSubmit(e) }>
@@ -139,7 +141,7 @@ export default class Auth extends Component {
 
  const mapStateToProps = (state) => {
    return {
-
+    signup: state.signup
    }
  }
 
