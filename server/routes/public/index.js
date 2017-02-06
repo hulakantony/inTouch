@@ -60,8 +60,8 @@ module.exports = function (app, passport) {
 
 
   //LOGOUT
-  app.get('/logout', userSetActiveToFalse, function (req, res) {
-    let user = req.user;
+  app.post('/logout', userSetActiveToFalse, function (req, res) {
+    let user = req.user;   
     req.logout();
     res.status(200).json({
       status: 'logged out',
@@ -80,12 +80,14 @@ module.exports = function (app, passport) {
 
   // route middleware to make set active state to false before logged out
   function userSetActiveToFalse(req, res, next) {
-    let user = req.user;
+    console.log(' logged out')
+    let user = req.body.user;
+    console.log(user)
     if (!user) {
       res.status(401).send({message:"No active users."});
       return;
     }
-    User.findOneAndUpdate({'local.email': user.local.email}, {
+    User.findOneAndUpdate({'local.nickname': user}, {
       "$set": {
         "local.active": false,
         "lastActive": Date.now()
