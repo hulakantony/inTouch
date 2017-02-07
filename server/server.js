@@ -22,6 +22,7 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 //SocketIo connection...
+var User = require('./models/user');
 var allClients = [];
 const io = require('socket.io')(server);
 
@@ -43,9 +44,20 @@ io.on('connection', function(socket){
     	io.emit('typing', user);
     });
     socket.on('stop typing', function (user) {
-    	console.log('stop typing')
+    	console.log('stop typing: ', user)
     	io.emit('stop typing', user);
     });
+    socket.on('user logout', function (user) {    	
+    	User.findOneAndUpdate({'local.nickname': user}, {
+	      "$set": {
+	        "local.active": false,
+	        "lastActive": Date.now()
+	      }
+	    }, function (err, user) {
+	    	if(err) throw err;
+	      console.log(user)
+	    })
+    })
 	socket.on('disconnect', function(){
 		console.log('disconnect')
 		socket.disconnect(true)

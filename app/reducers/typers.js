@@ -8,7 +8,7 @@ const typers = (state = initialState, action) => {
       return [...state, action.username];
     }
     return state;
-  case types.STOP_TYPING:
+  case types.STOP_TYPING: 
     return state.filter(user =>
       user !== action.username
     );

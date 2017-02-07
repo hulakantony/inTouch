@@ -28,6 +28,14 @@ export default class MessageForm extends PureComponent {
 			return;
 		}		
 	}
+	checkInterval(value){
+		setInterval(()=>{
+			const text = this.state.text;
+			if(text !== value){
+				
+			}
+		},)
+	}
 	handleChange(e){
 		const { socket, user } = this.props;
 		this.setState({text: e.target.value});
@@ -35,11 +43,15 @@ export default class MessageForm extends PureComponent {
 	    	socket.emit('typing', user);
 	    	this.setState({ typing: true});
 	    }
-	    if (e.target.value.length === 0 && this.state.typing) {
-	    	console.log('stop typing')
+	    if (!e.target.value.length && this.state.typing) {	    	
 	    	socket.emit('stop typing', user);
 	    	this.setState({ typing: false});
 	    }
+	    if(e.target.value.length > 0 && this.state.typing) {	    	
+    		socket.emit('stop typing', user);
+    		this.setState({typing: false})	    	    	
+	    }
+	    
 	}
 	render(){
 		return (

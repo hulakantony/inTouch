@@ -33,10 +33,10 @@ class ChatContainer extends Component {
 	}
 	componentWillUnmount(){		
 		const { socket } = this.props;	
-		const currentUser = this.props.currentUser;
-		socket.emit('disconnect');
+		const currentUser = this.props.users.currentUser;		
 		socket.emit('user left', currentUser);
-		socket.emit('stop typing', currentUser)
+		socket.emit('stop typing', currentUser);
+		socket.emit('disconnect');
 		socket.disconnect(true)		
 	}
 	messageSubmit(msg) {

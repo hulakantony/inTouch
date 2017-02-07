@@ -46,13 +46,13 @@ class App extends Component {
 	}
 	closeWindow(){		
 		const { currentUser, isAuthenticated } = this.props.users;	
-		const {userLogout, socket} = this.props;	
-		localStorage.removeItem('username');
+		const { userLogout, socket } = this.props;	
+		localStorage.removeItem('chat-token');
 		socket.emit('user left', currentUser);
-		socket.emit('stop typing', currentUser)
-		if(isAuthenticated){
-			userLogout()
-		}				
+		socket.emit('stop typing', currentUser);
+		socket.emit('user logout', currentUser)		
+		//userLogout()
+							
 	}
 	render(){  	
 		return (
