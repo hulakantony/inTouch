@@ -10,11 +10,13 @@ const flash    = require('flash');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const configDB = require('./config/database.js');
+const checkTocken = require('./middlewares/checkToken');
 const app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
-require('./config/passport')(passport); // pass passport for configuration
+
+require('./middlewares/passport')(passport); // pass passport for configuration
 
 
 
@@ -39,7 +41,11 @@ const staticAssetsPath = path.resolve(__dirname, 'static');
 app.use(express.static(staticAssetsPath));
 
 //import routes
+//public routes..
 require('./routes/public/')(app, passport);
+//private routes
+//checking token
+app.use(checkTocken);
 require('./routes/api')(app);
 
 module.exports = app;

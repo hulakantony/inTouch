@@ -1,4 +1,6 @@
-var User = require('../../models/user');
+const User = require('../../models/user');
+const jwt = require('jsonwebtoken');
+const jwtConfig = require('../../config/jwtConfig');
 
 module.exports = function (app, passport) {
 
@@ -20,17 +22,22 @@ module.exports = function (app, passport) {
   // locally
   // process the login form
   app.post('/login', function (req, res, next) {
-      passport.authenticate('local-login', function (err, user, info) {
+      passport.authenticate('local-login', {session: false}, function (err, user, info) {
         if (err) {
-          return res.status(err.status).send( err);
+          return res.status(err.status).json(err);
         }
         req.logIn(user, function (err) {
           if (err) {
-            res.status(401).send({message: err});
+            return res.status(401).json({message: err});
           }
+          // create a token if everything all right
+          var token = jwt.sign({username: user.email, password: user.password}, jwtConfig.secretKey);
+          // return the information including token as JSON*/
+          console.log(user);
           res.status(200).json({
             status: 'logged',
-            user: user
+            user: user,
+            token: token
           });
         });
       })(req, res, next);
@@ -39,15 +46,14 @@ module.exports = function (app, passport) {
 
   // SIGNUP
   // process the signup form
-
   app.post('/signup', function (req, res, next) {
-      passport.authenticate('local-signup', function (err, user, info) {
+      passport.authenticate('local-signup', {session: false}, function (err, user, info) {
         if (err) {
-          res.status(err.status).send(err);
+          return res.status(err.status).json(err);
         }
         req.logIn(user, function (err) {
           if (err) {
-            res.status(401).send({message: err});
+            return res.status(401).json({message: err});
           }
           res.status(200).json({
             status: 'created',
@@ -61,11 +67,9 @@ module.exports = function (app, passport) {
 
   //LOGOUT
   app.post('/logout', userSetActiveToFalse, function (req, res) {
-    let user = req.user;   
     req.logout();
     res.status(200).json({
-      status: 'logged out',
-      user: user
+      status: 'logged out'
     });
   });
 
@@ -80,11 +84,11 @@ module.exports = function (app, passport) {
 
   // route middleware to make set active state to false before logged out
   function userSetActiveToFalse(req, res, next) {
-    console.log(' logged out')
     let user = req.body.user;
-    console.log(user)
     if (!user) {
-      res.status(401).send({message:"No active users."});
+      res.status(401).json({
+        message: "No active users."
+      });
       return;
     }
     User.findOneAndUpdate({'local.nickname': user}, {

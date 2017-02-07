@@ -1,6 +1,5 @@
 // load all the things we need
 var LocalStrategy = require('passport-local').Strategy;
-
 // load up the user model
 var User = require('../models/user');
 
@@ -47,6 +46,7 @@ module.exports = function (passport) {
           return done({message: 'Oops! Wrong password.', status: 401}, false);
         // all is well, return user
         else {
+          // if user is found and password is right
           return done(null, user);
         }
       });
