@@ -47,7 +47,7 @@ class App extends Component {
 	closeWindow(){		
 		const { currentUser, isAuthenticated } = this.props.users;	
 		const {userLogout, socket} = this.props;	
-		localStorage.removeItem('username');
+		localStorage.removeItem('chat-token');
 		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser)
 		if(isAuthenticated){

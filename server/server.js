@@ -43,7 +43,7 @@ io.on('connection', function(socket){
     	io.emit('typing', user);
     });
     socket.on('stop typing', function (user) {
-    	console.log('stop typing')
+    	console.log(user,  ' stop typing')
     	io.emit('stop typing', user);
     });
 	socket.on('disconnect', function(){

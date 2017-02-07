@@ -83,7 +83,6 @@ export default class Auth extends Component {
     render() {
         const {errors} = this.state;
         const { message } = this.props.signup;
-        console.log(message)
         return (
             <div className="login-signin-wrap">
                 <form className="col-md-6" onSubmit={ e => this.handleSubmit(e) }>
@@ -128,8 +127,9 @@ export default class Auth extends Component {
                         <div className="alert alert-danger" key={index}>{error}</div>
                     ))
                     }
-                    <div className="alert alert-danger" >This e-mail is already registered</div>
-                    <div className="alert alert-danger" >This nickname is already in use</div>
+                    {
+                        message && <div className="alert alert-danger" >{ message }</div>
+                    }
                     <button className="btn btn-primary">Submit</button>
                 </form>
             </div>

@@ -6,8 +6,9 @@ import {browserHistory} from 'react-router';
 
 //SignUp
 
-const signUpError = ()=> ({
-  type: types.SIGNUP_FAILURE
+const signUpError = (message)=> ({
+  type: types.SIGNUP_FAILURE,
+  message
 });
 
 const signUpSuccess = (message)=> ({
@@ -22,17 +23,23 @@ export const signUpUser = (creds)=> dispatch => {
     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
     body: JSON.stringify(creds)
   }).then(response => {    
-    if (response.ok) {
-      return response.json();
+    if (!response.ok) {
+      //dispatch(signUpError(error))
+      var res = response.json();
+      return res.then(res => {
+        var error = res.message;
+        throw new Error(error);
+      })
     }else{
-      dispatch(signUpError(error))
+      return response.json();
     }
   }).then((response)=>{    
     dispatch(signUpSuccess());
     browserHistory.push('/login');
   })
     .catch(error => {
-      dispatch(signUpError(error))
+      console.log(error.message);
+      dispatch(signUpError(error.message))
     });
 }; 
 
