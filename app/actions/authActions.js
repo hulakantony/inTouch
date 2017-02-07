@@ -1,6 +1,6 @@
 
 export function checkAuth() {
-  if (localStorage.getItem('username')) {
+  if (localStorage.getItem('chat-token')) {
     return true;
   }
   return false;

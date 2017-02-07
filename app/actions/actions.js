@@ -26,7 +26,11 @@ const getActiveUsersSuccess = (users)=>{
 
 export const getActiveUsers = () => (dispatch, getState) =>{	
 	dispatch(getActiveUsersRequest())
-	fetch('http://localhost:8080/users?active=true')
+	const token = localStorage.getItem('chat-token')
+	fetch('http://localhost:8080/users?active=true',{
+		method: 'get',
+		headers: {'x-access-token': token}
+	})
 	.then(response => {		
 	    if (response.ok) {	    
 	    	return response.json();	      

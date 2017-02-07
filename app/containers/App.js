@@ -15,17 +15,17 @@ class App extends Component {
 		super()		
 	}	
 	componentDidMount(){
-		window.addEventListener('beforeunload', this.closeWindow.bind(this))
+		window.addEventListener('beforeunload', this.closeWindow.bind(this));
 	}
 	conmponentWiilUnmount(){
-		window.removeEventListener('beforeunload', this.closeWindow.bind(this))
+		window.removeEventListener('beforeunload', this.closeWindow.bind(this));
 	}
 	componentWillReceiveProps(nextProps){        
         if(this.props.socket !== nextProps.socket){           
             const { socket } = nextProps;
             socket.on('user left', this._userLeft.bind(this));
-            socket.on('typing', this._userTyping.bind(this))
-			socket.on('stop typing', this._userStopTyping.bind(this))
+            socket.on('typing', this._userTyping.bind(this));
+			socket.on('stop typing', this._userStopTyping.bind(this));
         }
     }
     _userTyping(user){
@@ -45,12 +45,14 @@ class App extends Component {
 		userLogout();
 	}
 	closeWindow(){		
-		const currentUser = this.props.users.currentUser;	
+		const { currentUser, isAuthenticated } = this.props.users;	
 		const {userLogout, socket} = this.props;	
 		localStorage.removeItem('username');
 		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser)
-		userLogout()		
+		if(isAuthenticated){
+			userLogout()
+		}				
 	}
 	render(){  	
 		return (

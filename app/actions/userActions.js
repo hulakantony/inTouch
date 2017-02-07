@@ -61,14 +61,14 @@ export const loginUser = (creds) => dispatch => {
         }) 
         .then((response) => {
             console.log('in OK section');
-            let user = response.user.local;
-            localStorage.setItem('username', user.nickname);
+            let token = response.token;
+            let user = response.user.local;            
+            localStorage.setItem('chat-token', token);
             const socket = io('http://localhost:8080');
             dispatch(getSocket(socket))
             socket.emit('user joined', user.nickname);
             dispatch(receiveLogin(user.nickname));
             browserHistory.push('/chat');
-
         })
         .catch(error => {
             console.log(error.message);
@@ -96,8 +96,7 @@ export const userLogout = () => (dispatch, getState) => {
     const userObj = {
         user: user
     };
-    dispatch(requestLogout())
-    console.log(111, user)
+    dispatch(requestLogout())    
     fetch('http://localhost:8080/logout', {
             method: 'post',
             headers: {
