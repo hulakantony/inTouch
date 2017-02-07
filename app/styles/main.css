@@ -115,24 +115,23 @@ nav.navbar {
 .logo {
   display: block;
   float: left;
+  color: #337ab7;
 }
-.logo:hover {
+/*.logo:hover {
   color: #23527c;
   text-decoration: none;
-}
+}*/
 .logo-in {
   font-family: 'Corben', cursive;
   display: block;
   font-size: 35px;
   margin-bottom: -16px;
   text-decoration: none;
-  cursor: pointer;
 }
 .logo-touch {
   font-family: 'Quicksand', sans-serif;
   font-size: 19px;
   text-decoration: none;
-  cursor: pointer;
 }
 .users-list-wrap{
   float: left;

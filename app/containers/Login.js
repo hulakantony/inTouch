@@ -20,6 +20,7 @@ export default class Login extends Component {
 	    loginUser(newUser);    
 	}
 	render(){
+		const { errorMessage } = this.props.users;
 		return (
 		<div className="login-signin-wrap">
 			<form className="col-md-4" onSubmit={(e)=>this.handleSubmit(e)} >
@@ -41,7 +42,10 @@ export default class Login extends Component {
 							ref="password"
 						/>
 					</div>
-					<div className="alert alert-danger" >Login or password is invalid</div>
+					{
+						errorMessage && <div className="alert alert-danger" >{ errorMessage }</div>
+					}
+					
 					<button className="btn btn-primary">Login</button>
 			</form>
 			
@@ -55,7 +59,7 @@ export default class Login extends Component {
 
 const mapStateToProps = (state) => { 
   return {
-   
+   	users: state.users
   }
 }
 

@@ -25,9 +25,11 @@ module.exports = function (passport) {
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
     function (req, email, password, done) {
+      console.log(email);
       if (email) {
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching;
       }
+      console.log('EMAIL',email);
       User.findOneAndUpdate({'local.email': email}, {
         "$set": {
           "local.active": true,
@@ -40,7 +42,7 @@ module.exports = function (passport) {
         }
         // if no user is found, return the message
         if (!user) {
-          return done({message: 'Sorry. No such a user found!', status: 401}, false);
+          return done({message: 'Sorry. No such a user found!', status: 405}, false);
         }
         if (!user.validPassword(password))
           return done({message: 'Oops! Wrong password.', status: 401}, false);
