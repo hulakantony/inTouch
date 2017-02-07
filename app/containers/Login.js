@@ -43,7 +43,7 @@ export default class Login extends Component {
 						/>
 					</div>
 					{
-						errorMessage && <div className="alert alert-danger" >Login or password is invalid</div>
+						errorMessage && <div className="alert alert-danger" >{ errorMessage }</div>
 					}
 					
 					<button className="btn btn-primary">Login</button>
