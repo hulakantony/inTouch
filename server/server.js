@@ -44,7 +44,6 @@ io.on('connection', function(socket){
     	io.emit('typing', user);
     });
     socket.on('stop typing', function (user) {
-    	console.log('stop typing: ', user)
     	io.emit('stop typing', user);
     });
     socket.on('user logout', function (user) {    	

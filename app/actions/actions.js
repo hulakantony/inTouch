@@ -61,6 +61,7 @@ export const typing = username => {
 }
 
 export const stopTyping = username => {
+  console.log(username)
   return {
     type: types.STOP_TYPING,
     username

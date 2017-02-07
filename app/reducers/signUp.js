@@ -9,12 +9,12 @@ const signup = (state = initialState, action) => {
     case types.SIGNUP_SUCCESS:
       return {
         ...state,
-        message:'User is created!'
+        message: null
       };
     case types.SIGNUP_FAILURE:
       return {
         ...state,
-        message:'Ups! Something wrong'
+        message: action.message
       };
 
     default:
