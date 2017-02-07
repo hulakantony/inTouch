@@ -25,11 +25,9 @@ module.exports = function (passport) {
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
     function (req, email, password, done) {
-      console.log(email);
       if (email) {
         email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching;
       }
-      console.log('EMAIL',email);
       User.findOneAndUpdate({'local.email': email}, {
         "$set": {
           "local.active": true,
@@ -62,35 +60,45 @@ module.exports = function (passport) {
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
     function (req, email, password, done) {
+      let nickname = req.body.nickname;
       if (email)
         email = email.toLowerCase();
+      // if the user is not already logged in:
+      if (!req.user) {
+        User.findOne({$or: [{'local.email': email}, {'local.nickname': nickname}]}, function (err, user) {
+          // if there are any errors, return the error
+          if (err) {
+            return done({message: err});
+          }
+          // check to see if theres already a user with that email
+          if (user) {
+            return (user.local.nickname == nickname) ?
+              done({
+                message: 'This nickname is already taken.',
+                status: 401
+              }, false)
+              :
+              done({
+                message: 'This email is already taken.',
+                status: 401
+              }, false);
 
-        // if the user is not already logged in:
-        if (!req.user) {
-          User.findOne({'local.email': email}, function (err, user) {
-            // if there are any errors, return the error
-            if (err){
-              return done({message: err});
-            }
-            // check to see if theres already a user with that email
-            if (user) {
-              return done({message: 'That email is already taken.', status:401}, false);
-            } else {
-              // create the user
-              var newUser = new User();
+          } else {
+            // create the user
+            var newUser = new User();
 
-              newUser.local.email = email;
-              newUser.local.password = newUser.generateHash(password);
-              newUser.local.nickname = req.body.nickname;
+            newUser.local.email = email;
+            newUser.local.password = newUser.generateHash(password);
+            newUser.local.nickname = req.body.nickname;
 
-              newUser.save(function (err) {
-                if (err){
-                  return done({message:err, status: 401});
-                }
-                return done(null, newUser);
-              });
-            }
-          })
-        }
+            newUser.save(function (err) {
+              if (err) {
+                return done({message: err, status: 401});
+              }
+              return done(null, newUser);
+            });
+          }
+        })
+      }
     }));
 };
