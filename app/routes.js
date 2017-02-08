@@ -11,12 +11,12 @@ import { checkAuth } from './actions/authActions';
 
 const requireAuth = (nextState, replace) => {
   if(!checkAuth()) {  
-    return replace('/auth')
+    return replace('/login')
   }
 }
 export const routes = (
 	<Route path='/' component={App}>
-		<IndexRedirect to='login' component={App} />
+		<IndexRedirect to='chat' component={App} />
 		<Route path='auth' component={Auth}/>
 		<Route path='login' component={Login}/>	
 		<Route path='chat' onEnter={requireAuth} component={ChatContainer}/>			

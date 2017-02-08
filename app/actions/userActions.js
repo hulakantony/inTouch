@@ -14,6 +14,7 @@ const requestLogin = () => ({
 });
 
 const receiveLogin = (user) => {
+  console.log('recieve login')
     return {
         type: types.LOGIN_SUCCESS,
         nickname: user
@@ -64,10 +65,7 @@ export const loginUser = (creds) => dispatch => {
             let token = response.token;
             let user = response.user.local;            
             localStorage.setItem('chat-token', token);
-            const socket = io('http://localhost:8080');
-            dispatch(getSocket(socket))
-            socket.emit('user joined', user.nickname);
-            dispatch(receiveLogin(user.nickname));
+            localStorage.setItem('chat-user', JSON.stringify(user));            
             browserHistory.push('/chat');
         })
         .catch(error => {
@@ -75,7 +73,19 @@ export const loginUser = (creds) => dispatch => {
             dispatch(loginError(error.message));
         });
 };
-
+export const initialAuth = () => dispatch => {
+  console.log('init')
+  const user = JSON.parse(localStorage.getItem('chat-user'));  
+  if(user) {
+    const socket = io('http://localhost:8080');
+    dispatch(getSocket(socket));
+    socket.emit('user joined', user.nickname);
+    dispatch(receiveLogin(user.nickname));
+    browserHistory.push('/chat');
+  } else {
+    return;
+  }
+}
 
 export const addUser = (user) => dispatch => {
     dispatch({
@@ -96,7 +106,9 @@ export const userLogout = () => (dispatch, getState) => {
     const userObj = {
         user: user
     };
-    dispatch(requestLogout())    
+    dispatch(requestLogout())   
+    localStorage.removeItem('chat-token');  
+    localStorage.removeItem('chat-user'); 
     fetch('http://localhost:8080/logout', {
             method: 'post',
             headers: {

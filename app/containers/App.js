@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/header';
 import { checkAuth } from '../actions/authActions';
-import { userLeftChat, userLogout } from '../actions/userActions';
+import { userLeftChat, userLogout, initialAuth } from '../actions/userActions';
 import { typing, stopTyping } from '../actions/actions'
 import '../styles/main.css';
 //import io from 'socket.io-client';
@@ -14,7 +14,7 @@ class App extends Component {
 	constructor(){
 		super()		
 	}	
-	componentDidMount(){
+	componentDidMount(){		
 		window.addEventListener('beforeunload', this.closeWindow.bind(this));
 	}
 	conmponentWiilUnmount(){
@@ -25,7 +25,7 @@ class App extends Component {
             const { socket } = nextProps;
             socket.on('user left', this._userLeft.bind(this));
             socket.on('typing', this._userTyping.bind(this));
-			socket.on('stop typing', this._userStopTyping.bind(this));
+			socket.on('stop typing', this._userStopTyping.bind(this));			
         }
     }
     _userTyping(user){
@@ -39,20 +39,14 @@ class App extends Component {
 	_userLeft(user){
 		const { userLeftChat } = this.props;		
 		userLeftChat(user)
-	}
-	userLogout(){
-		const { userLogout } = this.props;
-		userLogout();
-	}
+	}	
 	closeWindow(){		
-		const { currentUser, isAuthenticated } = this.props.users;	
-		const { userLogout, socket } = this.props;	
-		localStorage.removeItem('chat-token');
+		const { currentUser } = this.props.users;	
+		const { userLogout, socket } = this.props;		
 		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser);
-		socket.emit('user logout', currentUser)		
-		//userLogout()
-							
+		socket.emit('disconnect')	
+		socket.disconnect(true)							
 	}
 	render(){  	
 		return (
@@ -78,7 +72,8 @@ const mapDispatchToProps = (dispatch) => {
     userLeftChat : (user) => dispatch(userLeftChat(user)),
     userLogout: () => dispatch(userLogout()),
     typing: (user) => dispatch(typing(user)),
-    stopTyping: (user) => dispatch(stopTyping(user))
+    stopTyping: (user) => dispatch(stopTyping(user)),
+    initialAuth: () => dispatch(initialAuth())
   }
 }
 

@@ -20,11 +20,10 @@ export default class Header extends Component {
     }
     handleUserLogout(){
         const { userLogout, socket } = this.props;
-        const currentUser = this.props.users.currentUser;       
-        userLogout()
-        localStorage.removeItem('username');        
+        const currentUser = this.props.users.currentUser; 
         socket.emit('user left', currentUser); 
         socket.emit('stop typing', currentUser);      
+        userLogout()                      
     }
     render() {
         const { isAuthenticated } = this.props.users;

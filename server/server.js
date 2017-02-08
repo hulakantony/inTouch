@@ -23,7 +23,6 @@ server.on('listening', onListening);
 
 //SocketIo connection...
 var User = require('./models/user');
-var allClients = [];
 const io = require('socket.io')(server);
 
 io.on('connection', function(socket){	
@@ -35,19 +34,18 @@ io.on('connection', function(socket){
 		io.emit('chat message', msg);
 	});
 	socket.on('user joined', function(user){
-		io.emit('user joined', user)
+		User.findOneAndUpdate({'local.nickname': user}, {
+	      "$set": {
+	        "local.active": true,
+	        "lastActive": Date.now()
+	      }
+	    }, function (err, user) {
+	    	if(err) throw err;	      
+	    })		
+		io.emit('user joined', user);		
 	})
-	socket.on('user left', function(user){
-		io.emit('user left', user)
-	})  
-	socket.on('typing', function (user) {
-    	io.emit('typing', user);
-    });
-    socket.on('stop typing', function (user) {
-    	io.emit('stop typing', user);
-    });
-    socket.on('user logout', function (user) {    	
-    	User.findOneAndUpdate({'local.nickname': user}, {
+	socket.on('user left', function(user){		
+		User.findOneAndUpdate({'local.nickname': user}, {
 	      "$set": {
 	        "local.active": false,
 	        "lastActive": Date.now()
@@ -56,7 +54,16 @@ io.on('connection', function(socket){
 	    	if(err) throw err;
 	      console.log(user)
 	    })
-    })
+		io.emit('user left', user);	
+		io.emit('stop typing', user)	
+	})  
+	socket.on('typing', function (user) {
+    	io.emit('typing', user);
+    });
+    socket.on('stop typing', function (user) {    	
+    	io.emit('stop typing', user);
+    });
+    
 	socket.on('disconnect', function(){
 		console.log('disconnect')
 		socket.disconnect(true)

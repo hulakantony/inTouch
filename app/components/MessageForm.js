@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import uuid from 'uuid';
 
+let typingTimer;
 export default class MessageForm extends PureComponent {
 	constructor(props){
 		super(props);
@@ -28,13 +29,17 @@ export default class MessageForm extends PureComponent {
 			return;
 		}		
 	}
-	checkInterval(value){
-		setInterval(()=>{
-			const text = this.state.text;
-			if(text !== value){
-				
-			}
-		},)
+	handleKeyUp(){
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(this.doneTyping.bind(this), 2000)
+	}
+	handleKeyDown(){
+		clearTimeout(typingTimer);
+	}
+	doneTyping(){
+		const { socket, user } = this.props;		
+		socket.emit('stop typing', user);
+		this.setState({ typing: false })
 	}
 	handleChange(e){
 		const { socket, user } = this.props;
@@ -46,11 +51,7 @@ export default class MessageForm extends PureComponent {
 	    if (!e.target.value.length && this.state.typing) {	    	
 	    	socket.emit('stop typing', user);
 	    	this.setState({ typing: false});
-	    }
-	    if(e.target.value.length > 0 && this.state.typing) {	    	
-    		socket.emit('stop typing', user);
-    		this.setState({typing: false})	    	    	
-	    }
+	    }	    
 	    
 	}
 	render(){
@@ -58,7 +59,7 @@ export default class MessageForm extends PureComponent {
 			<div className='message-form-wrap'>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
 					<div className="form-group col-md-10">
-						<input type="text" placeholder="Type your message" value={this.state.text} className="form-control " onChange={(e)=>this.handleChange(e)} />
+						<input type="text" placeholder="Type your message" value={this.state.text} className="form-control" onKeyUp={() => this.handleKeyUp()} onKeyDown={() => this.handleKeyDown()} onChange={(e)=>this.handleChange(e)} />
 					</div>
 					<input className="btn btn-primary" type="submit" value="Send" />
 				</form>

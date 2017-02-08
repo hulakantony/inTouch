@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage, getActiveUsers } from '../actions/actions';
-import { addUser, userLeftChat } from '../actions/userActions';
+import { addUser, userLeftChat, initialAuth } from '../actions/userActions';
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
@@ -12,13 +12,22 @@ class ChatContainer extends Component {
 	constructor(props){
 		super(props);
 	}
+	componentWillMount(){
+		const { initialAuth } = this.props;
+		initialAuth()
+	}
 	componentDidMount(){
-		const { getActiveUsers, socket } = this.props;		
-		socket.on('chat message', this._messageRecieve.bind(this));
-		socket.on('user left', this._userLeft.bind(this))
-		socket.on('user joined', this._userJoined.bind(this));		
+		const { getActiveUsers } = this.props;					
 		getActiveUsers()
 	}	
+	componentWillReceiveProps(nextProps){        
+        if(this.props.socket !== nextProps.socket){            
+            const { socket } = nextProps;
+            socket.on('chat message', this._messageRecieve.bind(this));
+			socket.on('user left', this._userLeft.bind(this))
+			socket.on('user joined', this._userJoined.bind(this));
+        }
+    }
   	_userJoined(user){
   		const { addUser } = this.props;
   		addUser(user)
@@ -33,7 +42,7 @@ class ChatContainer extends Component {
 	}
 	componentWillUnmount(){		
 		const { socket } = this.props;	
-		const currentUser = this.props.users.currentUser;		
+		const currentUser = this.props.users.currentUser;
 		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser);
 		socket.emit('disconnect');
@@ -72,7 +81,8 @@ const mapDispatchToProps = (dispatch) => {
     sendMessage: (message, user) => dispatch(sendMessage(message, user)),
     addUser: (user) => dispatch(addUser(user)),
     getActiveUsers: () => dispatch(getActiveUsers()),
-    userLeftChat: (user) => dispatch(userLeftChat(user))   
+    userLeftChat: (user) => dispatch(userLeftChat(user)),  
+    initialAuth: () => dispatch(initialAuth())
   }
 }
 

@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
   // locally
   // process the login form
   app.post('/login', function (req, res, next) {
-      passport.authenticate('local-login', {session: false}, function (err, user, info) {
+      passport.authenticate('local-login', {session: true}, function (err, user, info) {
         if (err) {
           return res.status(err.status).json(err);
         }
