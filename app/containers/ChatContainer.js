@@ -53,9 +53,12 @@ class ChatContainer extends Component {
 		socket.emit('chat message', msg);		
 	}	
 	render(){
-		const { messages, users, socket, typers } = this.props;
+		const { messages, users, socket, typers, isFetching } = this.props;
 		const user = this.props.users.currentUser;
-
+		//console.log(this.props.isFetching)
+		if(isFetching){
+			return <h1>fetching</h1>
+		}
 		return (
 			<div className="main-wrapper">	
 				<UsersList users={users} currentUser={user}/>
@@ -73,7 +76,8 @@ const mapStateToProps = (state) => {
     messages: state.messages,
     users: state.users,
     socket: state.socket,
-    typers: state.typers
+    typers: state.typers,
+    isFetching: state.users.isFetching
   }
 }
 const mapDispatchToProps = (dispatch) => {

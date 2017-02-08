@@ -45,8 +45,11 @@ export const getActiveUsers = () => (dispatch, getState) =>{
     	let usersNicknames = [];
     	withoutMe.forEach(el => {
     		usersNicknames.push(el.local.nickname);
-    	})    	
-    	dispatch(getActiveUsersSuccess(usersNicknames));
+    	})   
+    	setTimeout(() => {
+    		dispatch(getActiveUsersSuccess(usersNicknames));
+    	}, 400) 	
+    	
     })
     .catch(error => {
     	dispatch(getActiveUsersFailure(error))
