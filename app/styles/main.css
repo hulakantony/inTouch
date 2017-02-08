@@ -25,6 +25,7 @@ nav.navbar {
   padding: 10px 0 0 0;
 }
 .chat-container {
+  position: relative;
   float: right;
   margin: 0 auto;
 }
@@ -36,7 +37,6 @@ nav.navbar {
   width: 600px; 
   background: #fff;
   border-radius: 10px;
-  position: relative;
 }
 .message-data {
   margin-bottom: 15px;
@@ -137,6 +137,7 @@ nav.navbar {
   float: left;
   width: 200px;
   height: 630px;
+  overflow-y: auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   background: #fff;
   position: relative;
@@ -160,7 +161,16 @@ nav.navbar {
 }
 
 .typers-list {
-  position: absolute;
-  bottom: 10px;
+  position: absolute; 
+  bottom: 70px;
   left: 50px;
+}
+
+a.active {
+    background: #337ab7;
+    color: #fff;
+}
+.nav>li>a:focus { 
+  background: #337ab7;
+  color: #fff;
 }

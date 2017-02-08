@@ -59,7 +59,12 @@ export default class MessageForm extends PureComponent {
 			<div className='message-form-wrap'>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
 					<div className="form-group col-md-10">
-						<input type="text" placeholder="Type your message" value={this.state.text} className="form-control" onKeyUp={() => this.handleKeyUp()} onKeyDown={() => this.handleKeyDown()} onChange={(e)=>this.handleChange(e)} />
+						<input type="text" 
+							   placeholder="Type your message" 
+							   value={this.state.text} className="form-control" 
+							   onKeyUp={() => this.handleKeyUp()} 
+							   onKeyDown={() => this.handleKeyDown()} 
+							   onChange={(e)=>this.handleChange(e)} />
 					</div>
 					<input className="btn btn-primary" type="submit" value="Send" />
 				</form>

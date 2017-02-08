@@ -6,7 +6,7 @@ import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
 import io from 'socket.io-client';
-
+import Spinner from '../components/Spinner';
 
 class ChatContainer extends Component {
 	constructor(props){
@@ -57,7 +57,7 @@ class ChatContainer extends Component {
 		const user = this.props.users.currentUser;
 		//console.log(this.props.isFetching)
 		if(isFetching){
-			return <h1>fetching</h1>
+			return <Spinner/>
 		}
 		return (
 			<div className="main-wrapper">	
