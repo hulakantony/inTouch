@@ -43,8 +43,9 @@ class ChatContainer extends Component {
 	componentWillUnmount(){		
 		const { socket } = this.props;	
 		const currentUser = this.props.users.currentUser;
-		socket.emit('user left', currentUser);
-		socket.emit('stop typing', currentUser);
+		console.log(currentUser);
+		socket.emit('user left', currentUser.nickname);
+		socket.emit('stop typing', currentUser.nickname);
 		socket.emit('disconnect');
 		socket.disconnect(true)		
 	}

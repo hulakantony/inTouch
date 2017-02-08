@@ -2,6 +2,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 // load up the user model
 var User = require('../models/user');
+var fs = require('fs');
 
 module.exports = function (passport) {
 
@@ -60,6 +61,7 @@ module.exports = function (passport) {
       passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
     function (req, email, password, done) {
+      debugger;
       let nickname = req.body.nickname;
       if (email)
         email = email.toLowerCase();
@@ -90,6 +92,9 @@ module.exports = function (passport) {
             newUser.local.email = email;
             newUser.local.password = newUser.generateHash(password);
             newUser.local.nickname = req.body.nickname;
+
+            newUser.local.avatar.data = fs.readFileSync(req.file.path);
+            newUser.local.avatar.contentType = 'image/png';
 
             newUser.save(function (err) {
               if (err) {

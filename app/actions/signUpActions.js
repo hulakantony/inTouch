@@ -6,9 +6,8 @@ import {browserHistory} from 'react-router';
 
 //SignUp
 
-const signUpError = (message)=> ({
-  type: types.SIGNUP_FAILURE,
-  message
+const signUpError = ()=> ({
+  type: types.SIGNUP_FAILURE
 });
 
 const signUpSuccess = (message)=> ({
@@ -17,29 +16,28 @@ const signUpSuccess = (message)=> ({
 
 
 export const signUpUser = (creds)=> dispatch => {
-  console.log('insign up');
-  fetch('http://localhost:8080/signup', {
-    method: 'post',
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-    body: JSON.stringify(creds)
-  }).then(response => {    
-    if (!response.ok) {
-      //dispatch(signUpError(error))
-      var res = response.json();
-      return res.then(res => {
-        var error = res.message;
-        throw new Error(error);
-      })
-    }else{
-      return response.json();
-    }
-  }).then((response)=>{    
-    dispatch(signUpSuccess());
-    browserHistory.push('/login');
-  })
-    .catch(error => {
-      console.log(error.message);
-      dispatch(signUpError(error.message))
+    console.log('insign up');
+    debugger;
+    fetch('http://localhost:8080/signup', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: creds
+    }).then(response => {
+        if (!response.ok) {
+            let res = response.json();
+            return res.then(error=> {
+                throw new Error(error);
+            });
+        } else {
+            return response.json();
+        }
+    }).then((response)=> {
+        dispatch(signUpSuccess());
+        browserHistory.push('/login');
+    }).catch(error => {
+        dispatch(signUpError(error))
     });
 }; 
 

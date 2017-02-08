@@ -30,32 +30,61 @@ export default class Auth extends Component {
             email: '',
             pass: '',
             nickname: '',
-            photo: '',
+            previewSrc: '',
+            file: null,
             errors: null
         }
     }
-    componentDidMount(){
-    	console.log(333, this.props)
+
+    componentDidMount() {
+        console.log(333, this.props)
     }
+
     handleInputChange(e, name) {
         this.setState({
             [name]: e.target.value
         })
     }
 
+    handleImageChange(e) {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        let previewSrc = file;
+
+        //if the file isn't a image nothing happens.
+        //you are free to implement a fallback
+        if (!file || !file.type.match(/image.*/)) {
+            return;
+        }
+
+        reader.onloadend = () => {
+            this.setState({
+                file,
+                previewSrc: reader.result
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+
     handleSubmit(e) {
         e.preventDefault();
-        const {email, pass, nickname} = this.state;
+        const {email, pass, nickname, file} = this.state;
         const {signUpUser} = this.props;
-        let errors = this.validateFields();
-        if (!errors) {
-            signUpUser({
-                email: email,
-                password: pass,
-                nickname: nickname
-            });
+        const formData = new FormData();
+        // let errors = this.validateFields();
+        let errors = null;
+
+        if (errors) {
+            this.setState({errors});
         } else {
-            this.setState({errors})
+            formData.append('email', email);
+            formData.append('password', pass);
+            formData.append('nickname', nickname);
+            formData.append('photo', file);
+            signUpUser(formData);
         }
     }
 
@@ -81,8 +110,9 @@ export default class Auth extends Component {
     }
 
     render() {
-        const {errors} = this.state;
-        const { message } = this.props.signup;
+        const {errors, previewSrc} = this.state;
+        const {message} = this.props.signup;
+
         return (
             <div className="login-signin-wrap">
                 <form className="col-md-6" onSubmit={ e => this.handleSubmit(e) }>
@@ -115,12 +145,17 @@ export default class Auth extends Component {
                     </div>
                     <div className="form-group">
                         <label>Photo</label>
-                        <input
-                            className="form-control"
-                            onChange={ (e) => this.handleInputChange(e, 'photo') }
-                            placeholder="Photo URL"
-                            type="text"
-                        />
+                        <div className="upload-photo">
+                            <div className="upload-area-holder">
+                                <img className="avatar" src={previewSrc||''} alt=""/>
+                                <input
+                                    className="form-control"
+                                    onChange={(e)=>this.handleImageChange(e)}
+                                    placeholder="Photo URL"
+                                    type="file"
+                                />
+                            </div>
+                        </div>
                     </div>
                     {errors &&
                     errors.map((error, index) => (
@@ -128,7 +163,7 @@ export default class Auth extends Component {
                     ))
                     }
                     {
-                        message && <div className="alert alert-danger" >{ message }</div>
+                        message && <div className="alert alert-danger">{ message }</div>
                     }
                     <button className="btn btn-primary">Submit</button>
                 </form>
@@ -139,11 +174,11 @@ export default class Auth extends Component {
 }
 
 
- const mapStateToProps = (state) => {
-   return {
-    signup: state.signup
-   }
- }
+const mapStateToProps = (state) => {
+    return {
+        signup: state.signup
+    }
+}
 
 const mapDispatchToProps = (dispatch) => {
     return {

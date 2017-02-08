@@ -1,6 +1,9 @@
 const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
 const jwtConfig = require('../../config/jwtConfig');
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+
 
 module.exports = function (app, passport) {
 
@@ -46,8 +49,9 @@ module.exports = function (app, passport) {
 
   // SIGNUP
   // process the signup form
-  app.post('/signup', function (req, res, next) {
-      passport.authenticate('local-signup', {session: false}, function (err, user, info) {
+  app.post('/signup',  upload.single("photo"), function (req, res, next) {
+    debugger;
+    passport.authenticate('local-signup', {session: false}, function (err, user, info) {
         if (err) {
           return res.status(err.status).json(err);
         }
@@ -101,3 +105,4 @@ module.exports = function (app, passport) {
     })
   }
 };
+ 
