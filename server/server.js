@@ -34,6 +34,7 @@ io.on('connection', function(socket){
 		io.emit('chat message', msg);
 	});
 	socket.on('user joined', function(user){
+		console.log(22222, user)
 		User.findOneAndUpdate({'local.nickname': user.nickname}, {
 	      "$set": {
 	        "local.active": true,

@@ -40,15 +40,17 @@ export const getActiveUsers = () => (dispatch, getState) =>{
     .then(users => {
     	const currentUser = getState().users.currentUser;    	
     	const withoutMe = users.filter(el => {    		
-    		return el.local.nickname !== currentUser;
+    		return el.local.nickname !== currentUser.nickname;
     	})
+
     	let usersNicknames = [];
     	withoutMe.forEach(el => {
     		usersNicknames.push(el.local.nickname);
-    	})   
+    	}) 
+    	
     	setTimeout(() => {
     		dispatch(getActiveUsersSuccess(usersNicknames));
-    	}, 400) 	
+    	}, 200) 	
     	
     })
     .catch(error => {

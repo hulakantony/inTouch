@@ -15,12 +15,14 @@ class ChatContainer extends Component {
 	componentWillMount(){
 		const { initialAuth } = this.props;
 		initialAuth()
+		console.log(555, this.props)
+		debugger;
 	}
 	componentDidMount(){
 		const { getActiveUsers } = this.props;	
-		debugger;				
+		//debugger;				
 		getActiveUsers();
-
+		debugger;
 	}	
 	componentWillReceiveProps(nextProps){        
         if(this.props.socket !== nextProps.socket){            
@@ -44,9 +46,8 @@ class ChatContainer extends Component {
 	}
 	componentWillUnmount(){		
 		const { socket } = this.props;	
-		const currentUser = this.props.users.currentUser;
-		console.log(currentUser);
-		socket.emit('user left', currentUser.nickname);
+		const currentUser = this.props.users.currentUser;		
+		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser.nickname);
 		socket.emit('disconnect');
 		socket.disconnect(true)		
@@ -57,10 +58,9 @@ class ChatContainer extends Component {
 	}	
 	render(){
 		const { messages, users, socket, typers, isFetching } = this.props;
-
 		const user = this.props.users.currentUser;		
-		debugger;
-		if(isFetching){
+		
+		if(isFetching || !user){
 			return <Spinner/>
 		}
 		return (

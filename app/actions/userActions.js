@@ -94,14 +94,13 @@ export const loginUser = (creds) => dispatch => {
 export const initialAuth = () => dispatch => {
     //dispatch(requestLogin());
     console.log('init');
-    const user = JSON.parse(localStorage.getItem('chat-user'));
-    console.log(user)
+    const user = JSON.parse(localStorage.getItem('chat-user'));   
     if (user) {
         const socket = io('http://localhost:8080');
         dispatch(getSocket(socket));
-        socket.emit('user joined', user);
-        
         dispatch(receiveLogin(user));
+        socket.emit('user joined', user);  
+               
         debugger;
         //browserHistory.push('/chat');
     } else {

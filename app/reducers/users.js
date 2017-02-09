@@ -19,6 +19,7 @@ const users = (state = initialState, action) => {
                 isAuthenticated: false
             };
         case types.LOGIN_SUCCESS:
+            console.log(666, action.user)
             return {
                 ...state,
                 isFetching: false,
@@ -66,6 +67,7 @@ const users = (state = initialState, action) => {
             };
         
         case types.ADD_USER:
+
             return {
                 ...state,
                 users: [...state.users, action.user]
