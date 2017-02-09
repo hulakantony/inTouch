@@ -4,7 +4,7 @@
 'use strict';
 const User = require('../../models/user');
 
-module.exports = function (app) {
+module.exports = function (app, gfs) {
   // route for getting users. ?active=true will return only active users 
   //TODO Make private route
 
@@ -16,4 +16,15 @@ module.exports = function (app) {
       res.json(users)
     })
   });
+
+  // sends the image
+  app.get('/users/photo/:filename', function(req, res){
+    var readstream = gfs.createReadStream({filename: req.params.filename});
+    readstream.on("error", function(err){
+      res.send("No image found with that title");
+    });
+    readstream.pipe(res);
+  });
+
+
 };

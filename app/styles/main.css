@@ -170,7 +170,7 @@ nav.navbar {
 
 .users-list-wrap ul li {
     text-align: left;
-    padding: 5px 20px;
+    padding: 20px 20px;
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
     font-size: 19px;
@@ -230,8 +230,9 @@ a.active {
 /*USER LIST*/
 
 .user-avatar {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
     float: left;
     border-radius: 50%;
     overflow: hidden;

@@ -12,11 +12,19 @@ const mongoose = require('mongoose');
 const configDB = require('./config/database.js');
 const checkTocken = require('./middlewares/checkToken');
 const app = express();
-
+const Grid = require("gridfs-stream");
+let gfs;
+Grid.mongo = mongoose.mongo;
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
 
-require('./middlewares/passport')(passport); // pass passport for configuration
+const  conn = mongoose.connection;
+conn.once("open", function(){
+    gfs = Grid(conn.db);
+    require('./middlewares/passport')(passport, gfs); // pass passport for configuration
+    require('./routes/api')(app, gfs);
+});
+
 
 
 app.use(cors());
@@ -35,16 +43,15 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 
-
 const staticAssetsPath = path.resolve(__dirname, 'static');
 app.use(express.static(staticAssetsPath));
 
 //import routes
 //public routes..
-require('./routes/public/')(app, passport);
+require('./routes/public/')(app, passport, gfs);
+
+//app.use(checkTocken);
 //private routes
 //checking token
-app.use(checkTocken);
-require('./routes/api')(app);
 
 module.exports = app;

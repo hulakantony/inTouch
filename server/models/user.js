@@ -30,7 +30,10 @@ var userSchema = mongoose.Schema({
         },
         avatar: {
             data: {type: Buffer, default: ''},
-            contentType: String            
+            contentType: String,
+            url: {
+                type: String
+            }
         }
     },
 
