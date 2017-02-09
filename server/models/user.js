@@ -29,8 +29,8 @@ var userSchema = mongoose.Schema({
             default: Date.now()
         },
         avatar: {
-            data: Buffer,
-            contentType: String
+            data: {type: Buffer, default: ''},
+            contentType: String            
         }
     },
 

@@ -37,12 +37,12 @@ export default class MessageForm extends PureComponent {
 		clearTimeout(typingTimer);
 	}
 	doneTyping(){
-		const { socket, user } = this.props;		
+		const { socket, user } = this.props;				
 		socket.emit('stop typing', user);
 		this.setState({ typing: false })
 	}
 	handleChange(e){
-		const { socket, user } = this.props;
+		const { socket, user } = this.props;		
 		this.setState({text: e.target.value});
 		 if (e.target.value.length > 0 && !this.state.typing) {
 	    	socket.emit('typing', user);

@@ -17,8 +17,10 @@ class ChatContainer extends Component {
 		initialAuth()
 	}
 	componentDidMount(){
-		const { getActiveUsers } = this.props;					
-		getActiveUsers()
+		const { getActiveUsers } = this.props;	
+		debugger;				
+		getActiveUsers();
+
 	}	
 	componentWillReceiveProps(nextProps){        
         if(this.props.socket !== nextProps.socket){            
@@ -55,8 +57,9 @@ class ChatContainer extends Component {
 	}	
 	render(){
 		const { messages, users, socket, typers, isFetching } = this.props;
-		const user = this.props.users.currentUser;
-		//console.log(this.props.isFetching)
+
+		const user = this.props.users.currentUser;		
+		debugger;
 		if(isFetching){
 			return <Spinner/>
 		}
@@ -64,8 +67,8 @@ class ChatContainer extends Component {
 			<div className="main-wrapper">	
 				<UsersList users={users} currentUser={user}/>
 				<div className="chat-container">
-					<MessageList typers={typers} messages={messages} currentUser={user}/>
-					<MessageForm socket={socket} messageSubmit={(m) => this.messageSubmit(m)} user={user}/>
+					<MessageList typers={typers} messages={messages} currentUser={user.nickname}/>
+					<MessageForm socket={socket} messageSubmit={(m) => this.messageSubmit(m)} user={user.nickname}/>
 				</div>
 			</div>
 		);

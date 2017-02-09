@@ -60,12 +60,17 @@ export const loginUser = (creds) => dispatch => {
         }
     })
         .then((response) => {
-            debugger;
+            debugger;            
             let token = response.token;
-            let user = response.user.local;
-            let img = user.avatar.data.data;
-            let b64encoded = btoa(String.fromCharCode.apply(null, img));
-            let datajpg = "data:image/jpg;base64," + b64encoded;
+            let user = response.user.local;            
+            let img = user.avatar.data.data;           
+            let datajpg;
+            if(!img.length){
+              datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
+            } else {
+              let b64encoded = btoa(String.fromCharCode.apply(null, img));
+              datajpg = "data:image/jpg;base64," + b64encoded;
+            }            
             let newUser = {
                 email: user.email,
                 nickname: user.nickname,
@@ -90,12 +95,14 @@ export const initialAuth = () => dispatch => {
     //dispatch(requestLogin());
     console.log('init');
     const user = JSON.parse(localStorage.getItem('chat-user'));
+    console.log(user)
     if (user) {
         const socket = io('http://localhost:8080');
         dispatch(getSocket(socket));
-        socket.emit('user joined', user.nickname);
-        debugger;
+        socket.emit('user joined', user);
+        
         dispatch(receiveLogin(user));
+        debugger;
         //browserHistory.push('/chat');
     } else {
         return;
