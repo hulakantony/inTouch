@@ -60,7 +60,7 @@ export const loginUser = (creds) => dispatch => {
         }
     })
         .then((response) => {
-            debugger;            
+                    
             let token = response.token;
             let user = response.user.local;            
             let img = user.avatar.data.data;           
@@ -80,14 +80,14 @@ export const loginUser = (creds) => dispatch => {
             localStorage.setItem('chat-user', JSON.stringify(newUser));
             const socket = io('http://localhost:8080');
             dispatch(getSocket(socket));
-            socket.emit('user joined', newUser.nickname);
+            //socket.emit('user joined', newUser);
             debugger;
             dispatch(receiveLogin(newUser));
             browserHistory.push('/chat');
         })
-        .catch(error => {
-            console.log(error.message);
+        .catch(error => {            
             dispatch(loginError(error.message));
+            debugger;
         });
 };
 
@@ -100,7 +100,7 @@ export const initialAuth = () => dispatch => {
         dispatch(getSocket(socket));
         dispatch(receiveLogin(user));
         socket.emit('user joined', user);  
-               
+
         debugger;
         //browserHistory.push('/chat');
     } else {
@@ -122,23 +122,11 @@ export const userLeftChat = (user) => (dispatch) => {
     })
 }
 
-export const userLogout = () => (dispatch, getState) => {
-    const user = getState().users.currentUser;
-    const userObj = {
-        user: user
-    };
+export const userLogout = () => (dispatch) => {     
     dispatch(requestLogout());
     localStorage.removeItem('chat-token');
-    localStorage.removeItem('chat-user');
-    dispatch(requestLogout())
-    fetch('http://localhost:8080/logout', {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userObj)
-    })
+    localStorage.removeItem('chat-user');    
+    fetch('http://localhost:8080/logout')       
         .then(response => {
             console.log(response)
             if (response.ok) {

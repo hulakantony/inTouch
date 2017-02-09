@@ -18,8 +18,7 @@ const users = (state = initialState, action) => {
                 isFetching: true,
                 isAuthenticated: false
             };
-        case types.LOGIN_SUCCESS:
-            console.log(666, action.user)
+        case types.LOGIN_SUCCESS:            
             return {
                 ...state,
                 isFetching: false,
@@ -29,12 +28,14 @@ const users = (state = initialState, action) => {
             };
 
         case types.LOGIN_FAILURE:
+            debugger;
             return {
                 ...state,
                 isFetching: false,
                 isAuthenticated: false,
                 errorMessage: action.message
             };
+
 
         case types.LOGOUT_SUCCESS:
             return {
@@ -51,6 +52,7 @@ const users = (state = initialState, action) => {
             };
         
         case types.GET_ACTIVE_USERS_FAILURE:
+            debugger;
             return {
                 ...state,
                 isFetching: false,
@@ -67,17 +69,16 @@ const users = (state = initialState, action) => {
             };
         
         case types.ADD_USER:
-
             return {
                 ...state,
                 users: [...state.users, action.user]
             };
         
-        case types.USER_LEFT_CHAT:
+        case types.USER_LEFT_CHAT:       
             const users = state.users.slice();
             const currUser = action.user;
             const filteredUsers = users.filter(el => {
-                return el !== currUser;
+                return el.nickname !== currUser.nickname;
             });
             return {
                 ...state,

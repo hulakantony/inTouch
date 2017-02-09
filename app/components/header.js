@@ -22,7 +22,7 @@ export default class Header extends Component {
         const { userLogout, socket } = this.props;
         const currentUser = this.props.users.currentUser; 
         socket.emit('user left', currentUser); 
-        socket.emit('stop typing', currentUser);      
+        socket.emit('stop typing', currentUser.nickname);      
         userLogout()                      
     }
     render() {

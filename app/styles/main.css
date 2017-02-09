@@ -246,3 +246,6 @@ a.active {
     color: #92959e;
     font-size: 12px;
 }
+.name{
+  padding: 0 0 0 10px;
+}

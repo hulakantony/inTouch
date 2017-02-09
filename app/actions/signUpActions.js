@@ -6,8 +6,9 @@ import {browserHistory} from 'react-router';
 
 //SignUp
 
-const signUpError = ()=> ({
-  type: types.SIGNUP_FAILURE
+const signUpError = (message)=> ({
+  type: types.SIGNUP_FAILURE,
+  message
 });
 
 const signUpSuccess = (message)=> ({

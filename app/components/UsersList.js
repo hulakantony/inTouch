@@ -6,7 +6,7 @@ export default function UsersList({users, currentUser}) {
             <ul>
                 {
                     users.users.map((el, i) => {
-                        const userColor = el === currentUser ? 'user-me' : 'user-other';
+                        const userColor = el.nickname === currentUser.nickname ? 'user-me' : 'user-other';
                         console.log(el);
                         return (<li key={i} className={userColor}>
                             <div className="user-avatar">

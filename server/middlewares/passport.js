@@ -92,9 +92,11 @@ module.exports = function (passport) {
             newUser.local.email = email;
             newUser.local.password = newUser.generateHash(password);
             newUser.local.nickname = req.body.nickname;
-
-            newUser.local.avatar.data = fs.readFileSync(req.file.path);
-            newUser.local.avatar.contentType = 'image/png';
+            if(newUser.local.avatar.data.length){
+              newUser.local.avatar.data = fs.readFileSync(req.file.path);
+              newUser.local.avatar.contentType = 'image/png';
+            }
+           
 
             newUser.save(function (err) {
               if (err) {
