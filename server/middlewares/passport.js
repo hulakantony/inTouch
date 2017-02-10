@@ -115,7 +115,17 @@ function loadUsersImage(id, gfs, req) {
     });
     // pipe multer's temp file /uploads/filename into the stream we created above.
     // On end deletes the temporary file.
-    
+    console.log(5555, req.file)
+    let filePath = "./uploads/" + req.file.filename;
+    // console.log(11111, req.file.path)
+    // im.resize({
+    //   srcData: fs.readFileSync(req.file.path),
+    //   width:   50
+    // }, function(err, stdout, stderr){
+    //   if (err) throw err
+      // fs.writeFileSync(filePath, stdout, 'binary');
+      // console.log('resized kittens.jpg to fit within 256x256px')
+    //});
     fs.createReadStream(filePath)
         .on("end", function () {
             debugger;
