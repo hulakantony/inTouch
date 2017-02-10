@@ -46,13 +46,14 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		});
 		let activeUsers = [];
 		withoutMe.forEach(el => {
-			//let img = el.local.avatar.data.data;
+			debugger;
 			let datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
-			
+			let img = `http://localhost:8080/users/photo/${el._id}`;
+
 			activeUsers.push({
 				email:el.local.email,
 				nickname:el.local.nickname,
-				avatar:datajpg
+				avatar:img
 			});
 			debugger;
 		});	 
