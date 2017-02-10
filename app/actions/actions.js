@@ -31,11 +31,13 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		method: 'get',
 		headers: {'x-access-token': token}
 	})
-	.then(response => {  
+	.then(response => { 
+	console.log(77777, response) 
 		if (response.ok) {     
 			return response.json();       
 	 	} else {
-	   		dispatch(getActiveUsersFailure(error))       
+	 		const error = response.message;
+	   		throw new Error(error);
 	}})
 	.then(users => {
 		const currentUser = getState().users.currentUser;     
@@ -44,19 +46,9 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		});
 		let activeUsers = [];
 		withoutMe.forEach(el => {
-			let img = el.local.avatar.data.data;
-			let datajpg;
-			if(!img.length){
-				datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
-			} else {
-				let b64encoded;
-				setTimeout(()=>{
-					b64encoded = btoa(String.fromCharCode.apply(null, img));
-					datajpg = "data:image/jpg;base64," + b64encoded;
-				}, 0)			
-											
-			}
-
+			//let img = el.local.avatar.data.data;
+			let datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
+			
 			activeUsers.push({
 				email:el.local.email,
 				nickname:el.local.nickname,
@@ -67,44 +59,9 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		dispatch(getActiveUsersSuccess(activeUsers));	 
 	})
 	.catch(error => {
-	 dispatch(getActiveUsersFailure(error))
+		dispatch(getActiveUsersFailure(error))
 	})
-	.then(response => {		
-	    if (response.ok) {	    
-	    	return response.json();	      
-	    } else {
-	      dispatch(getActiveUsersFailure(error))	      
-    }})
-    .then(users => {
-    	const currentUser = getState().users.currentUser;    	
-    	const withoutMe = users.filter(el => {    		
-    		return el.local.nickname !== currentUser.nickname;
-    	});
-    	let activeUsers = [];
-    	withoutMe.forEach(el => {
-			
-			let img = el.local.avatar.data.data;
-			let datajpg;
-			if(!img.length){
-				datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
-			} else {
-				let b64encoded = btoa(String.fromCharCode.apply(null, img));
-				datajpg = "data:image/jpg;base64," + b64encoded;
-			}
-			activeUsers.push({
-				email:el.local.email,
-				nickname:el.local.nickname,
-				avatar:datajpg
-			});
-    	})  ;
-    	setTimeout(() => {
-			dispatch(getActiveUsersSuccess(activeUsers));
-    	}, 400) 	
-    	
-    })
-    .catch(error => {
-    	dispatch(getActiveUsersFailure(error))
-    })
+	
 }
 
 export const typing = username => {
