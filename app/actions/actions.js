@@ -40,20 +40,21 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 	   		throw new Error(error);
 	}})
 	.then(users => {
+		debugger;
 		const currentUser = getState().users.currentUser;     
 		const withoutMe = users.filter(el => {      
 			return el.local.nickname !== currentUser.nickname;
 		});
 		let activeUsers = [];
 		withoutMe.forEach(el => {
-			debugger;
-			let datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
-			let img = `http://localhost:8080/users/photo/${el._id}`;
+			let userId = el._id;           
+            let imageUrl = `http://localhost:8080/users/photo/${userId}`;
+			debugger;			
 
 			activeUsers.push({
 				email:el.local.email,
 				nickname:el.local.nickname,
-				avatar:img
+				avatar:imageUrl
 			});
 			debugger;
 		});	 

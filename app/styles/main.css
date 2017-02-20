@@ -82,6 +82,13 @@ nav.navbar {
     max-width: 500px;
     word-wrap: break-word;
 }
+.message a{
+  color: #fff;
+  text-decoration: none;
+}
+.message a:hover{
+  text-decoration: underline;
+}
 
 .message::after {
     bottom: 100%;

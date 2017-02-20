@@ -11,7 +11,8 @@ export default class MessageList extends Component{
 		messageList.scrollTop = messageList.scrollHeight;
 	}
 	render(){
-		const { messages, currentUser, typers } = this.props;		
+		const { messages, currentUser, typers } = this.props;
+		const urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;		
 		return (
 			<div className='message-list clearfix' ref="messageList">
 				<ul>
