@@ -69,6 +69,15 @@ const users = (state = initialState, action) => {
             };
         
         case types.ADD_USER:
+            const checkUser = state.users.some(el => {
+                return el.nickname === action.user.nickname;
+            })
+            if(checkUser){
+                let currentUser = state.currentUser;
+                //action.users.unshift(currentUser)
+                console.log(state.users.indexOf(currentUser))
+                return state;
+            }
             return {
                 ...state,
                 users: [...state.users, action.user]

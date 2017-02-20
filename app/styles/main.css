@@ -85,6 +85,7 @@ nav.navbar {
 .message a{
   color: #fff;
   text-decoration: none;
+  display: block;
 }
 .message a:hover{
   text-decoration: underline;
@@ -256,4 +257,7 @@ a.active {
 }
 .name{
   padding: 0 0 0 10px;
+}
+.message-voice{
+    visibility: hidden;
 }

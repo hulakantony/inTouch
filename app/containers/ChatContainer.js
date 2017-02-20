@@ -31,6 +31,10 @@ class ChatContainer extends Component {
 			socket.on('user left', this._userLeft.bind(this))
 			socket.on('user joined', this._userJoined.bind(this));
         }
+        if(this.props.messages !== nextProps.messages){
+        	const { voice } = this.refs;
+        	voice.play()
+        }
     }
   	_userJoined(user){
   		const { addUser } = this.props;
@@ -70,6 +74,7 @@ class ChatContainer extends Component {
 					<MessageList typers={typers} messages={messages} currentUser={user.nickname}/>
 					<MessageForm socket={socket} messageSubmit={(m) => this.messageSubmit(m)} user={user.nickname}/>
 				</div>
+				<audio ref="voice" src='./sms.mp3' className='message-voice'></audio>
 			</div>
 		);
 	}

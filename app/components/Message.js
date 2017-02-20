@@ -11,7 +11,13 @@ export default function Message({message, user, date, myMessage}) {
 				<span className="message-data-time">{date}</span>
 			</div>			
 			<div className={msgClassName}>
-				{urlRegex.test(message) ? <a target="_blank" href={message}> {message}</a> : {message} }
+				{urlRegex.test(message) ? 
+					<div>
+						<iframe src={message} width="200" height="150" allowTransparency></iframe>						
+						<a target="_blank" href={message}> {message}</a> 
+					</div> : 
+					`${message}` 
+				}
 			</div> 
 
 		</li>

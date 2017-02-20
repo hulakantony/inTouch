@@ -38,7 +38,7 @@ export const getSocket = socket => ({
 export const loginUser = (creds) => dispatch => {
     dispatch(requestLogin());
 
-    fetch('http://localhost:8080/login', {
+    fetch('http://192.168.3.170:8080/login', {
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -63,7 +63,7 @@ export const loginUser = (creds) => dispatch => {
             let token = response.token;
             let user = response.user.local;            
             let userId = response.user._id;           
-            let imageUrl = `http://localhost:8080/users/photo/${userId}`;
+            let imageUrl = `http://192.168.3.170:8080/users/photo/${userId}`;
           
             debugger;
             let newUser = {
@@ -73,7 +73,7 @@ export const loginUser = (creds) => dispatch => {
             };
             localStorage.setItem('chat-token', token);
             localStorage.setItem('chat-user', JSON.stringify(newUser));
-            const socket = io('http://localhost:8080');
+            const socket = io('http://192.168.3.170:8080');
             dispatch(getSocket(socket));           
             dispatch(receiveLogin(newUser));
             browserHistory.push('/chat');
@@ -89,7 +89,7 @@ export const initialAuth = () => dispatch => {
     console.log('init');
     const user = JSON.parse(localStorage.getItem('chat-user'));   
     if (user) {
-        const socket = io('http://localhost:8080');
+        const socket = io('http://192.168.3.170:8080');
         dispatch(getSocket(socket));
         dispatch(receiveLogin(user));
         socket.emit('user joined', user);  
@@ -119,7 +119,7 @@ export const userLogout = () => (dispatch) => {
     dispatch(requestLogout());
     localStorage.removeItem('chat-token');
     localStorage.removeItem('chat-user');    
-    fetch('http://localhost:8080/logout')       
+    fetch('http://192.168.3.170:8080/logout')       
         .then(response => {              
           return response.json();            
         })
