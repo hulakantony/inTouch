@@ -119,8 +119,7 @@ function loadUsersImage(id, gfs, req) {
     var filePath = './uploads/'+req.file.filename;
     fs.createReadStream(filePath)
         .on("end", function () {
-            debugger;
-            //TODO fix delete
+console.log('kkk')            //TODO fix delete
             fs.unlink(filePath)
         })
         .pipe(resizeTransform)

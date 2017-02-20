@@ -31,7 +31,7 @@ export default class MessageForm extends PureComponent {
 	}
 	handleKeyUp(){
 		clearTimeout(typingTimer);
-		typingTimer = setTimeout(this.doneTyping.bind(this), 2000)
+		typingTimer = setTimeout(() => this.doneTyping(), 2000)
 	}
 	handleKeyDown(){
 		clearTimeout(typingTimer);
@@ -59,14 +59,16 @@ export default class MessageForm extends PureComponent {
 			<div className='message-form-wrap'>
 				<form onSubmit={(e) => this.handleSubmit(e)}>
 					<div className="form-group col-md-10">
-						<input type="text" 
-							   placeholder="Type your message" 
-							   value={this.state.text} className="form-control" 
-							   onKeyUp={() => this.handleKeyUp()} 
-							   onKeyDown={() => this.handleKeyDown()} 
-							   onChange={(e)=>this.handleChange(e)} />
+						<input 
+							type="text" 
+							placeholder="Type your message" 
+							value={this.state.text} className="form-control" 
+							onKeyUp={() => this.handleKeyUp()} 
+							onKeyDown={() => this.handleKeyDown()} 
+							onChange={(e)=>this.handleChange(e)} 
+						/>
 					</div>
-					<input className="btn btn-primary" type="submit" value="Send" />
+					<button className="btn btn-primary" type="submit">Send</button>
 				</form>
 			</div>
 		);
