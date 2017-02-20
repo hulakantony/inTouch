@@ -65,6 +65,7 @@ export const loginUser = (creds) => dispatch => {
             let userId = response.user._id;           
             let imageUrl = `http://localhost:8080/users/photo/${userId}`;
           
+            debugger;
             let newUser = {
                 email: user.email,
                 nickname: user.nickname,

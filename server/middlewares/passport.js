@@ -3,8 +3,7 @@ var LocalStrategy = require('passport-local').Strategy;
 // load up the user model
 var User = require('../models/user');
 var fs = require('fs');
-var im = require('imagemagick');
-
+//var sharp = require('sharp');
 
 module.exports = function (passport, gfs) {
 
@@ -114,23 +113,18 @@ function loadUsersImage(id, gfs, req) {
         filename: id
     });
     // pipe multer's temp file /uploads/filename into the stream we created above.
-    // On end deletes the temporary file.
-    console.log(5555, req.file)
-    let filePath = "./uploads/" + req.file.filename;
-    // console.log(11111, req.file.path)
-    // im.resize({
-    //   srcData: fs.readFileSync(req.file.path),
-    //   width:   50
-    // }, function(err, stdout, stderr){
-    //   if (err) throw err
-      // fs.writeFileSync(filePath, stdout, 'binary');
-      // console.log('resized kittens.jpg to fit within 256x256px')
-    //});
+    // On end deletes the temporary file.    
+
+    //var resizeTransform = sharp().resize(50, 50).max();
+
+    var filePath = './uploads/'+req.file.filename;
+
     fs.createReadStream(filePath)
         .on("end", function () {
             debugger;
             //TODO fix delete
             fs.unlink(filePath)
         })
+        //.pipe(resizeTransform)
         .pipe(writestream);
 }

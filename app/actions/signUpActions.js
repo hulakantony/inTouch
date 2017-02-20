@@ -18,7 +18,6 @@ const signUpSuccess = (message)=> ({
 
 export const signUpUser = (creds)=> dispatch => {
     console.log('insign up');
-    debugger;
     fetch('http://localhost:8080/signup', {
         method: 'post',
         headers: {

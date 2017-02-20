@@ -49,8 +49,8 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		withoutMe.forEach(el => {
 			let userId = el._id;           
             let imageUrl = `http://localhost:8080/users/photo/${userId}`;
-			let datajpg = 'https://cdn0.iconfinder.com/data/icons/unigrid-flat-human-vol-2/90/011_101_anonymous_anonym_hacker_vendetta_user_human_avatar-512.png'
-			
+			debugger;			
+
 			activeUsers.push({
 				email:el.local.email,
 				nickname:el.local.nickname,
