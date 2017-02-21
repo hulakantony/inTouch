@@ -50,7 +50,6 @@ export default class Auth extends Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        let previewSrc = file;
 
         //if the file isn't a image nothing happens.
         //you are free to implement a fallback

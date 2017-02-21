@@ -21,7 +21,7 @@ mongoose.connect(configDB.url); // connect to our database
 const  conn = mongoose.connection;
 conn.once("open", function(){
     gfs = Grid(conn.db);
-    require('./middlewares/passport')(passport, gfs); // pass passport for configuration
+    require('./config/passport')(passport, gfs); // pass passport for configuration
     require('./routes/api')(app, gfs);
 });
 
@@ -50,8 +50,6 @@ app.use(express.static(staticAssetsPath));
 //public routes..
 require('./routes/public/')(app, passport, gfs);
 
-//app.use(checkTocken);
-//private routes
-//checking token
+app.use(checkTocken);
 
 module.exports = app;
