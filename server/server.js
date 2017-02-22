@@ -31,6 +31,7 @@ io.on('connection', function(socket){
 		io.emit('connect')
 	})
 	socket.on('chat message', function(msg){
+		debugger;
 		io.emit('chat message', msg);
 	});
 	socket.on('user joined', function(user){

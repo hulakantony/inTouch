@@ -4,6 +4,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var fs = require('fs');
 var sharp = require('sharp');
+var getRandomInt = require('../utils/random').getRandomInt;
 
 module.exports = function (passport, gfs) {
 
@@ -115,13 +116,16 @@ function loadUsersImage(id, gfs, req) {
     // pipe multer's temp file /uploads/filename into the stream we created above.
     // On end deletes the temporary file.
     var resizeTransform = sharp().resize(50, 50).max();
-    var filePath = !req.file ? './server/public/images/empty_avatar'
+    var filePath = !req.file ? `./server/public/images/avatar${getRandomInt(1,9)}`
         : './uploads/' + req.file.filename;
 
     fs.createReadStream(filePath)
         .on("end", function () {
             //delete file
-            fs.unlink(filePath)
+            if (req.file) {
+                fs.unlink(filePath)
+            }
+
         })
         .pipe(resizeTransform)
         .pipe(writestream);

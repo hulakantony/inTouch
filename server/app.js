@@ -50,6 +50,6 @@ app.use(express.static(staticAssetsPath));
 //public routes..
 require('./routes/public/')(app, passport, gfs);
 
-app.use(checkTocken);
+//app.use(checkTocken);
 
 module.exports = app;

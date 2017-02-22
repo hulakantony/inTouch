@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {signUpUser} from '../actions/signUpActions';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux'
 
-// import { connect } from 'react-redux';
 
 const validation = {
     email: {
@@ -73,8 +73,7 @@ export default class Auth extends Component {
         const {email, pass, nickname, file} = this.state;
         const {signUpUser} = this.props;
         const formData = new FormData();
-        // let errors = this.validateFields();
-        let errors = null;
+        let errors = this.validateFields();
 
         if (errors) {
             this.setState({errors});
@@ -114,7 +113,7 @@ export default class Auth extends Component {
 
         return (
             <div className="login-signin-wrap">
-                <form className="col-md-6" onSubmit={ e => this.handleSubmit(e) }>
+                <form className="col-md-6" onSubmit={ (e) => this.handleSubmit(e) }>
                     <div className="form-group">
                         <label>Email address*</label>
                         <input
@@ -173,17 +172,13 @@ export default class Auth extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        signup: state.signup
-    }
-}
+const mapStateToProps = ({signup}) => ({
+    signup
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        signUpUser: (user) => dispatch(signUpUser(user))
-    }
-};
+const mapDispatchToProps = (dispatch) => (
+    bindActionCreators({signUpUser},dispatch)
+);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

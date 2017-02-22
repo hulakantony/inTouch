@@ -23,9 +23,11 @@ nav.navbar {
 }
 
 .main-wrapper {
+    display: flex;
     margin: 0 auto;
     text-align: center;
     width: 800px;
+    height:600px;
     padding: 10px 0 0 0;
 }
 
@@ -33,6 +35,8 @@ nav.navbar {
     position: relative;
     float: right;
     margin: 0 auto;
+    height:100%;
+    padding-bottom: 50px;
 }
 
 .message-list {
@@ -42,7 +46,6 @@ nav.navbar {
     height: 575px;
     width: 600px;
     background: #fff;
-    border-radius: 10px;
 }
 
 .message-data {
@@ -63,7 +66,7 @@ nav.navbar {
 }
 
 .message-data-time {
-    color: lighten(gray, 8%);
+    color: #a8aab1;
     padding-left: 6px;
 }
 
@@ -73,7 +76,7 @@ nav.navbar {
 
 .message {
     color: white;
-    padding: 13px 15px;
+    padding: 10px 30px;
     line-height: 26px;
     font-size: 16px;
     border-radius: 7px;
@@ -91,28 +94,34 @@ nav.navbar {
   text-decoration: underline;
 }
 
-.message::after {
+.message::before{
     bottom: 100%;
-    left: 7%;
-    border: solid transparent;
+    left: 25%;
+    border: 10px solid transparent;
     content: " ";
     height: 0;
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: $ green;
-    border-width: 10px;
     margin-left: -10px;
 }
 
 .my-message {
-    background: green;
+    background: #eceff1;
     float: right;
+    color: #1a1a1a;
+}
+
+.my-message::before{
+    border-bottom-color: #eceff1;
 }
 
 .other-message {
-    background: blue;
+    background: #00b0ff;
     float: left;
+}
+.other-message::before{
+    border-bottom-color: #00b0ff;
 }
 
 .message-form-wrap {
@@ -165,15 +174,13 @@ nav.navbar {
 }
 
 .users-list-wrap {
-    float: left;
-    width: 200px;
-    height: 630px;
+    min-width: 235px;
+    height: 100%;
     overflow-y: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: #fff;
     position: relative;
-    border-radius: 10px;
     z-index: 1;
+    border-right: 1px solid #eaeaea;
 }
 
 .users-list-wrap ul li {
