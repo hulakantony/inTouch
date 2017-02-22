@@ -69,6 +69,37 @@ class App extends Component {
 
         )
     }
+    _userTyping(user){
+		const { typing } = this.props;
+		typing(user)
+	}
+	_userStopTyping(user){
+		const { stopTyping } = this.props;
+		stopTyping(user)
+	}
+	_userLeft(user){
+		const { userLeftChat } = this.props;		
+		userLeftChat(user)
+	}	
+	closeWindow(){		
+		const { currentUser } = this.props.users;	
+		const { socket } = this.props;		
+		socket.emit('user left', currentUser);
+		socket.emit('stop typing', currentUser);
+		socket.emit('disconnect')	
+		socket.disconnect(true)							
+	}
+	render(){  	
+		return (
+			<div>
+				<Header />
+				<div className="content-wrap">				
+					{this.props.children }
+				</div>
+			</div>
+			
+		)
+	}
 }
 const mapStateToProps = ({users, socket}) => ({
     users,

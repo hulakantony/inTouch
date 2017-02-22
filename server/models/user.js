@@ -16,10 +16,10 @@ var userSchema = mongoose.Schema({
         password: {
             type: String
         },
-        active: {
-            type: Boolean,
-            default: false
-        },
+        // active: {
+        //     type: Boolean,
+        //     default: false
+        // },
         createdAt: {
             type: Date,
             default: Date.now()
@@ -34,6 +34,10 @@ var userSchema = mongoose.Schema({
             url: {
                 type: String
             }
+        },
+        loggedCount: {
+            type: Number,
+            default: 0
         }
     },
 
