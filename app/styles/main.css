@@ -114,6 +114,20 @@ nav.navbar {
     background: blue;
     float: left;
 }
+.message-image-wrap{
+  width: 200px;
+  height: 150px;
+  margin: 0 auto;  
+}
+.message-image-wrap a{
+  width: 100%;
+  height: 100%;
+}
+.message-image{
+  height: 100%;
+  width: 100%;
+  display: block;
+}
 
 .message-form-wrap {
     background: #ccc;

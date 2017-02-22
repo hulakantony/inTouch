@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import '../styles/main.css';
-import { userLeftChat, userLogout } from '../actions/userActions'
+import { userLeftChat, userLogout, fetchNotActiveUsers } from '../actions/userActions';
 import { browserHistory } from 'react-router';
 
 export default class Header extends Component {
@@ -12,18 +12,23 @@ export default class Header extends Component {
     componentWillReceiveProps(nextProps){        
         if(this.props.socket !== nextProps.socket){            
             const { socket } = nextProps;
-            socket.on('user left', this._userLeft.bind(this));
+            //socket.on('user left', this._userLeft.bind(this));
         }
     }
     _userLeft(user){
         const { userLeftChat } = this.props;        
         userLeftChat(user)
     }
+    fetchNotActiveUsers(){
+        const { getActiveUsers } = this.props;
+        getActiveUsers()
+    }
     handleUserLogout(){
         const { userLogout, socket } = this.props;
         const currentUser = this.props.users.currentUser; 
-        socket.emit('user left', currentUser); 
-        socket.emit('stop typing', currentUser.nickname);      
+        //socket.emit('user left', currentUser); 
+        socket.emit('stop typing', currentUser.nickname);    
+        //this.fetchNotActiveUsers()     
         userLogout();
         browserHistory.push('/login');              
     }
@@ -80,7 +85,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     userLeftChat: (user) => dispatch(userLeftChat(user)),
-    userLogout: () => dispatch(userLogout())
+    userLogout: () => dispatch(userLogout()),
+    fetchNotActiveUsers: () => dispatch(fetchNotActiveUsers())    
   }
 }
 

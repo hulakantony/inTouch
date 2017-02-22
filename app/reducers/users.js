@@ -18,7 +18,7 @@ const users = (state = initialState, action) => {
                 isFetching: true,
                 isAuthenticated: false
             };
-        case types.LOGIN_SUCCESS:            
+        case types.LOGIN_SUCCESS:                   
             return {
                 ...state,
                 isFetching: false,
@@ -69,30 +69,44 @@ const users = (state = initialState, action) => {
             };
         
         case types.ADD_USER:
+            const currentUserNickname = state.currentUser.nickname; 
             const checkUser = state.users.some(el => {
                 return el.nickname === action.user.nickname;
             })
-            if(checkUser){
-                let currentUser = state.currentUser;
-                //action.users.unshift(currentUser)
-                console.log(state.users.indexOf(currentUser))
-                return state;
+            if(currentUserNickname === action.user.nickname){ 
+              return state;
+            }
+            if(checkUser){                                     
+              return state;
             }
             return {
                 ...state,
                 users: [...state.users, action.user]
             };
-        
-        case types.USER_LEFT_CHAT:       
-            const users = state.users.slice();
-            const currUser = action.user;
-            const filteredUsers = users.filter(el => {
-                return el.nickname !== currUser.nickname;
-            });
-            return {
-                ...state,
-                users: filteredUsers
-            };
+        case types.NOT_ACTIVE_USERS:
+            if(!action.users.length){
+              return state;
+            }
+            var activeUsers = [];
+           for(let i = 0; i<state.users.length; i++ ){
+              for(let j = 0; j<action.users.length; j++){
+                if(state.users[i].nickname !== action.users[j].local.nickname){
+                  activeUsers.push(state.users[i]);
+                }
+              }
+           }           
+          return {
+            ...state,
+            users: activeUsers
+          }
+        // case types.USER_LEFT_CHAT:            
+        //     let filteredUsers = state.users.filter((el,i,arr) => {
+        //         return el.loggedCount >= 1                
+        //     });            
+        //     return {
+        //         ...state,
+        //         users: filteredUsers
+        //     };
         default:
             return state
     }

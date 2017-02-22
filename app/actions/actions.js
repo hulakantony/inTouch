@@ -31,8 +31,7 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		method: 'get',
 		headers: {'x-access-token': token}
 	})
-	.then(response => { 
-	console.log(77777, response) 
+	.then(response => {	
 		if (response.ok) {     
 			return response.json();       
 	 	} else {
@@ -40,7 +39,7 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 	   		throw new Error(error);
 	}})
 	.then(users => {
-		debugger;
+		
 		const currentUser = getState().users.currentUser;     
 		const withoutMe = users.filter(el => {      
 			return el.local.nickname !== currentUser.nickname;
@@ -48,15 +47,15 @@ export const getActiveUsers = () => (dispatch, getState) =>{
 		let activeUsers = [];
 		withoutMe.forEach(el => {
 			let userId = el._id;           
-            let imageUrl = `http://localhost:8080/users/photo/${userId}`;
-			debugger;			
+            let imageUrl = `http://localhost:8080/users/photo/${userId}`;					
 
 			activeUsers.push({
 				email:el.local.email,
 				nickname:el.local.nickname,
-				avatar:imageUrl
+				avatar:imageUrl,
+				loggedCount: 1
 			});
-			debugger;
+			
 		});	 
 		dispatch(getActiveUsersSuccess(activeUsers));	 
 	})

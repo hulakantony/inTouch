@@ -34,10 +34,11 @@ io.on('connection', function(socket){
 		io.emit('chat message', msg);
 	});
 	socket.on('user joined', function(user){
-		console.log(22222, user)
-		User.findOneAndUpdate({'local.nickname': user.nickname}, {
-	      "$set": {
-	        "local.active": true,
+	console.log(666666666)		
+		User.findOneAndUpdate({'local.nickname': user.nickname}, 
+	    {$inc: {'local.loggedCount': 1}},
+		{
+	      "$set": {	        
 	        "lastActive": Date.now()
 	      }
 	    }, function (err, user) {
@@ -46,9 +47,11 @@ io.on('connection', function(socket){
 		io.emit('user joined', user);		
 	})
 	socket.on('user left', function(user){		
-		User.findOneAndUpdate({'local.nickname': user.nickname}, {
-	      "$set": {
-	        "local.active": false,
+		console.log(77777777)
+		User.findOneAndUpdate({'local.nickname': user.nickname, 'local.loggedCount': {$gte: 0}}, 
+		{$inc: {'local.loggedCount': -1}},
+		{
+	      "$set": {	        
 	        "lastActive": Date.now()
 	      }
 	    }, function (err, user) {

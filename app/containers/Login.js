@@ -21,7 +21,7 @@ export default class Login extends Component {
 	}
 	render(){
 		const { errorMessage } = this.props.users;
-		console.log('error: ', errorMessage)
+		//console.log('error: ', errorMessage)
 		return (
 		<div className="login-signin-wrap">
 			<form className="col-md-4" onSubmit={(e)=>this.handleSubmit(e)} >
@@ -44,7 +44,7 @@ export default class Login extends Component {
 						/>
 					</div>
 					{
-						errorMessage && <div className="alert alert-danger" >{ errorMessage }</div>
+						//errorMessage && <div className="alert alert-danger" >{ errorMessage }</div>
 					}
 					
 					<button className="btn btn-primary">Login</button>

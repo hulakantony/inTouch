@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/header';
 import { checkAuth } from '../actions/authActions';
-import { userLeftChat, userLogout, initialAuth } from '../actions/userActions';
+import { userLeftChat, userLogout} from '../actions/userActions';
 import { typing, stopTyping } from '../actions/actions'
 import '../styles/main.css';
 //import io from 'socket.io-client';
@@ -42,7 +42,7 @@ class App extends Component {
 	}	
 	closeWindow(){		
 		const { currentUser } = this.props.users;	
-		const { userLogout, socket } = this.props;		
+		const { socket } = this.props;		
 		socket.emit('user left', currentUser);
 		socket.emit('stop typing', currentUser);
 		socket.emit('disconnect')	
@@ -52,7 +52,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<div className="content-wrap clearfix">				
+				<div className="content-wrap">				
 					{this.props.children }
 				</div>
 			</div>
@@ -72,8 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     userLeftChat : (user) => dispatch(userLeftChat(user)),
     userLogout: () => dispatch(userLogout()),
     typing: (user) => dispatch(typing(user)),
-    stopTyping: (user) => dispatch(stopTyping(user)),
-    initialAuth: () => dispatch(initialAuth())
+    stopTyping: (user) => dispatch(stopTyping(user))    
   }
 }
 

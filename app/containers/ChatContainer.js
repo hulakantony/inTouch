@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage, getActiveUsers } from '../actions/actions';
-import { addUser, userLeftChat, initialAuth } from '../actions/userActions';
+import { addUser, userLeftChat, initialAuth, fetchNotActiveUsers } from '../actions/userActions';
 import MessageList from '../components/MessageList';
 import MessageForm from '../components/MessageForm';
 import UsersList from '../components/UsersList';
@@ -14,15 +14,11 @@ class ChatContainer extends Component {
 	}
 	componentWillMount(){
 		const { initialAuth } = this.props;
-		initialAuth()
-		console.log(555, this.props)
-		debugger;
+		initialAuth()		
 	}
 	componentDidMount(){
-		const { getActiveUsers } = this.props;	
-		//debugger;				
-		getActiveUsers();
-		debugger;
+		const { getActiveUsers } = this.props;				
+		getActiveUsers();		
 	}	
 	componentWillReceiveProps(nextProps){        
         if(this.props.socket !== nextProps.socket){            
@@ -45,9 +41,9 @@ class ChatContainer extends Component {
 		sendMessage(message);
 	}	
 	_userLeft(user){
-		const { userLeftChat } = this.props;		
-		userLeftChat(user)
-	}
+		const { fetchNotActiveUsers } = this.props;		
+		fetchNotActiveUsers()
+	}	
 	componentWillUnmount(){		
 		const { socket } = this.props;	
 		const currentUser = this.props.users.currentUser;		
@@ -68,7 +64,7 @@ class ChatContainer extends Component {
 			return <Spinner/>
 		}
 		return (
-			<div className="main-wrapper">	
+			<div className="main-wrapper clearfix">	
 				<UsersList users={users} currentUser={user}/>
 				<div className="chat-container">
 					<MessageList typers={typers} messages={messages} currentUser={user.nickname}/>
@@ -95,7 +91,8 @@ const mapDispatchToProps = (dispatch) => {
     addUser: (user) => dispatch(addUser(user)),
     getActiveUsers: () => dispatch(getActiveUsers()),
     userLeftChat: (user) => dispatch(userLeftChat(user)),  
-    initialAuth: () => dispatch(initialAuth())
+    initialAuth: () => dispatch(initialAuth()),
+    fetchNotActiveUsers: () => dispatch(fetchNotActiveUsers())
   }
 }
 

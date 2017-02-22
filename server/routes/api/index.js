@@ -10,12 +10,20 @@ module.exports = function (app, gfs) {
 
   app.get('/users', function (req, res) {
     let base = req.query.active;
-    let where = (base == 'true') ? {$where: "this.local.active==true"} : {};
+    let where;
+    if(base == 'true'){
+      where = {$where: "this.local.loggedCount > 0"}
+    }
+    if(base == 'false'){
+      where = {$where: "this.local.loggedCount <= 0"}
+    }
     User.find(where, function (err, users) {
       if (err) throw err;
       res.json(users)
     })
   });
+
+ 
 
   // sends the image
   app.get('/users/photo/:filename', function(req, res){
